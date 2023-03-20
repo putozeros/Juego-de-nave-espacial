@@ -14,5 +14,4 @@ public enum PowerUpTipos {
         this.texto = texto;
         this.textura = textura;
     }
-
 }

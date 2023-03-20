@@ -23,13 +23,13 @@ public class GameState extends State{
     private ArrayList<Animacion> explosiones = new ArrayList<Animacion>();
     private ArrayList<Mensaje> mensajes = new ArrayList<Mensaje>();
     private int puntuacion = 0;
-    private int vidas = 999;
+    private int vidas = 3;
     private int asteroides;
     private int waves = 1;
     private boolean gameOver;
     private Sonido musica;
     private Crono timerGameOver,ufoSpawner;
-    private long powerUpSpawner;
+    private boolean powerUpSpawner = false;
     public GameState(){
         player=new Player(PLAYER_START_POSITION, new Vector2D(),6 , Assets.jugador,this);
         timerGameOver = new Crono();
@@ -40,7 +40,6 @@ public class GameState extends State{
         musica.loop();
         asteroides = 1;
         iniciarOleada();
-        powerUpSpawner = 0;
         ufoSpawner = new Crono();
         ufoSpawner.run(Constantes.UFO_SPAWN_RATE);
     }
@@ -48,9 +47,11 @@ public class GameState extends State{
 
     public void addpuntuacion (int value, Vector2D posicion){
         puntuacion += value;
-        mensajes.add(new Mensaje(posicion,true, "+"+value+" puntos",Color.WHITE,false,Assets.fuentepeque,this));
+        if(puntuacion % 100 == 0){
+            spawnerPowerUp();
+        }
+        mensajes.add(new Mensaje(posicion,true, "+"+value+" puntos",Color.WHITE,false,Assets.fuentepeque));
     }
-
 
 
     public void dividirAsteroide(Asteroide asteroide){
@@ -89,7 +90,7 @@ public class GameState extends State{
 
     private void iniciarOleada(){
         mensajes.add(new Mensaje(new Vector2D(Constantes.WIDTH/2,Constantes.HEIGHT/2),true,"Oleada "+waves,
-                Color.WHITE,true, Assets.fuente,this));
+                Color.WHITE,true, Assets.fuente));
 
         double x,y;
         for(int i = 0; i < asteroides;i++){
@@ -170,14 +171,9 @@ public class GameState extends State{
                     @Override
                     public void doAction() {
                         vidas ++;
+                        powerUpSpawner = false;
                         mensajes.add(new Mensaje(
-                                posicion,
-                                false,
-                                texto,
-                                Color.GREEN,
-                                false,
-                                Assets.fuentepeque,
-                                this));
+                                posicion,false,"1 UP",Color.GREEN,false,Assets.fuentepeque));
                     }
                 };
                 break;
@@ -186,7 +182,9 @@ public class GameState extends State{
                     @Override
                     public void doAction() {
                         player.setEscudo();
-                        mensajes.add(new Mensaje(posicion,false,texto,Color.blue,false,Assets.fuentepeque,this));
+                        powerUpSpawner = false;
+                        mensajes.add(new Mensaje(
+                                posicion,false,"ESCUDO",Color.RED,false,Assets.fuentepeque));
                     }
                 };
                 break;
@@ -199,7 +197,6 @@ public class GameState extends State{
     }
     public void updatear(float dt){
 
-        powerUpSpawner += dt;
 
         for(int i = 0;i<movingObjects.size();i++){
             movingObjects.get(i).actualizar(dt);
@@ -223,10 +220,8 @@ public class GameState extends State{
             }
             State.cambiarEstado(new EstadoMenu());
         }
-        if(powerUpSpawner > 8000){
-            spawnerPowerUp();
-            powerUpSpawner=0;
-        }
+
+
 
         if(!ufoSpawner.isRunning()){
             ufoSpawner.run(Constantes.UFO_SPAWN_RATE);
@@ -317,7 +312,7 @@ public class GameState extends State{
     }
 
     public void gameOver(){
-        Mensaje perdedor = new Mensaje(PLAYER_START_POSITION,true,"GAME OVER",Color.WHITE,true,Assets.fuente,this);
+        Mensaje perdedor = new Mensaje(PLAYER_START_POSITION,true,"GAME OVER",Color.WHITE,true,Assets.fuente);
         this.mensajes.add(perdedor);
         musica.stop();
         timerGameOver.run(Constantes.GAME_OVER_TIME);

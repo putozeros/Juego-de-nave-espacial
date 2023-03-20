@@ -19,7 +19,7 @@ public class Mensaje {
     private final float deltaAlfa = 0.01f;
     private boolean dead;
 
-    public Mensaje(Vector2D posicion, boolean desaparecer, String texto, Color color, boolean centro, Font font, GameState gameState) {
+    public Mensaje(Vector2D posicion, boolean desaparecer, String texto, Color color, boolean centro, Font font) {
         this.gameState = gameState;
         this.texto = texto;
         this.posicion = posicion;
@@ -34,9 +34,6 @@ public class Mensaje {
         }else{
             alpha =0;
         }
-    }
-
-    public Mensaje(Vector2D posicion, boolean desaparecer, String texto, Color green, boolean centro, Font fuentepeque, Accion accion) {
     }
 
     public void dibujar(Graphics2D g2d){

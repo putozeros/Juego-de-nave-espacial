@@ -6,14 +6,14 @@ import graficos.Sonido;
 import math.Vector2D;
 import states.GameState;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Graphics;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 public class PowerUps extends MovingObject{
     private long duration;
     private Accion accion;
-
     private Sonido recoger;
     private BufferedImage tipoTextura;
 

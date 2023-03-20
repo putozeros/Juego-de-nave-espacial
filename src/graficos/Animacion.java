@@ -31,6 +31,7 @@ public class Animacion {
             index++;
             if (index >= frames.length){
                 running = false;
+                index = 0;
             }
         }
     }

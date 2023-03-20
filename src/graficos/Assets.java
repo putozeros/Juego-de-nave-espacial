@@ -41,7 +41,7 @@ public class Assets {
     public static BufferedImage[] enanos = new BufferedImage[2];
 
     //power ups
-    public static BufferedImage[] escudo = new BufferedImage[3];
+    public static BufferedImage[] escudo = new BufferedImage[2];
     public static BufferedImage escudito;
     public static BufferedImage orbe;
 
@@ -100,7 +100,7 @@ public class Assets {
             num[i] = Loader.imageLoader("/res/numeros/"+i+".png");
         }
         for(int i = 0;i < escudo.length; i++) {
-            escudo[i] = Loader.imageLoader("/res/PowerUps/"+i+".png");
+            escudo[i] = Loader.imageLoader("/res/PowerUps/escudo/"+i+".png");
         }
     }
 
