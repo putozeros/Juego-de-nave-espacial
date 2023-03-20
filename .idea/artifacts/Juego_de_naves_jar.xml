@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Juego de naves:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Juego_de_naves_jar</output-path>
+    <root id="archive" name="Juego de naves.jar">
+      <element id="module-output" name="Juego de naves" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/json-20230227.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
