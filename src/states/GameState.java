@@ -29,7 +29,6 @@ public class GameState extends State{
     private boolean gameOver;
     private Sonido musica;
     private Crono timerGameOver,ufoSpawner;
-    private boolean powerUpSpawner = false;
     public GameState(){
         player=new Player(PLAYER_START_POSITION, new Vector2D(),6 , Assets.jugador,this);
         timerGameOver = new Crono();
@@ -171,7 +170,6 @@ public class GameState extends State{
                     @Override
                     public void doAction() {
                         vidas ++;
-                        powerUpSpawner = false;
                         mensajes.add(new Mensaje(
                                 posicion,false,"1 UP",Color.GREEN,false,Assets.fuentepeque));
                     }
@@ -182,7 +180,6 @@ public class GameState extends State{
                     @Override
                     public void doAction() {
                         player.setEscudo();
-                        powerUpSpawner = false;
                         mensajes.add(new Mensaje(
                                 posicion,false,"ESCUDO",Color.RED,false,Assets.fuentepeque));
                     }
