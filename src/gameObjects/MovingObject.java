@@ -1,11 +1,8 @@
 package gameObjects;
 
-import graficos.Assets;
-import graficos.Sonido;
 import math.Vector2D;
 import states.GameState;
 
-import javax.sound.sampled.Clip;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;

@@ -7,12 +7,9 @@ import input.MouseInput;
 import states.EstadoMenu;
 import states.State;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.io.File;
-import java.io.IOException;
 
 public class ventana extends JFrame implements Runnable {
 
@@ -34,8 +31,6 @@ public class ventana extends JFrame implements Runnable {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
-
-
 
         canvas = new Canvas();
         keyboard = new Keyboard();

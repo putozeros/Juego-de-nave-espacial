@@ -14,6 +14,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
 public class GameState extends State{
     public static final Vector2D PLAYER_START_POSITION = new Vector2D(Constantes.WIDTH/2 - Assets.jugador.getWidth()/2,
             Constantes.HEIGHT/2 - Assets.jugador.getHeight()/2);

@@ -8,42 +8,82 @@ import graficos.Assets;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class EstadoMenu extends State{
-    private ArrayList<Buttones> boton;
+import static graficos.Assets.*;
 
+public class EstadoMenu extends State{
+    private static ArrayList<Buttones> boton;;
     public EstadoMenu(){
         boton = new ArrayList<>();
 
-        boton.add(new Buttones(
-                Assets.botonGris,
-                Assets.botonRojo,
-                Constantes.WIDTH/2 - Assets.botonGris.getWidth()/2,
-                Constantes.HEIGHT/2 - Assets.botonGris.getHeight()*2 ,
-                Constantes.PLAY,
-                () -> State.cambiarEstado(new GameState())
-        ));
+        if(tripsMode){
+            boton.add (new Buttones(
+                    Assets.botonGris,
+                    Assets.botonRojo,
+                    345,
+                    360 ,
+                    "MATATRIPS",
+                    () -> State.cambiarEstado(new GameState()),
+                    1
+            ));
+        }else if(putoMode){
+            boton.add(new Buttones(
+                    Assets.botonGris,
+                    botonRojo,
+                    345,
+                    360,
+                    "MATAPUTOS",
+                    () -> State.cambiarEstado(new GameState()),
+                    1
+            ));
+        }
+        else{
+            boton.add (new Buttones(
+                    Assets.botonGris,
+                    Assets.botonRojo,
+                    345,
+                    360 ,
+                    "JUGAR",
+                    () -> State.cambiarEstado(new GameState()),
+                    1
+            ));
+        }
 
         boton.add(new Buttones(
                 Assets.botonGris,
                 Assets.botonRojo,
-                Constantes.WIDTH/2 - Assets.botonGris.getWidth()/2,
-                Constantes.HEIGHT/2 + Assets.botonGris.getHeight()*2,
-                Constantes.EXIT,
-                () -> System.exit(0)
+                545,
+                540,
+                "SALIR",
+                () -> System.exit(0),
+                2
         ));
 
         boton.add(new Buttones(
                 Assets.botonGris,
                 Assets.botonRojo,
                 Constantes.WIDTH / 2 - Assets.botonGris.getWidth() / 2,
-                Constantes.HEIGHT / 2,
+                360,
                 "PUNTOS",
                 new Accion() {
                     @Override
                     public void doAction() {
                         State.cambiarEstado(new Score());
                     }
-                }
+                },
+                3
+        ));
+        boton.add(new Buttones(
+                Assets.botonGris,
+                Assets.botonRojo,
+                745, 360,
+                "OPCIONES",
+                new Accion() {
+                    @Override
+                    public void doAction() {
+                        State.cambiarEstado(new EstadoOpciones());
+                    }
+                },
+                4
         ));
     }
 

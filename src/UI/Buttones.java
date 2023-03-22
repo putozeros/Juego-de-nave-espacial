@@ -15,14 +15,24 @@ public class Buttones {
     private Rectangle boundingBox;
     private String texto;
     private Accion accion;
+    private int identificador;
+
+    public int getIdentificador() {
+        return identificador;
+    }
+
+    public void setIdentificador(int identificador) {
+        this.identificador = identificador;
+    }
 
     public Buttones(BufferedImage mouseOut, BufferedImage mouseIn, int x, int y,
-                    String texto, Accion accion) {
+                    String texto, Accion accion, int identificador) {
         this.mouseOut = mouseOut;
         this.mouseIn = mouseIn;
         this.texto = texto;
         boundingBox = new Rectangle(x,y,mouseIn.getWidth(),mouseIn.getHeight());
         this.accion = accion;
+        this.identificador = identificador;
     }
 
     public void actualizar(){
@@ -49,5 +59,13 @@ public class Buttones {
                         boundingBox.getX()+ boundingBox.getWidth()/2,
                         boundingBox.getY()+ boundingBox.getHeight()),
                 true,Color.black, Assets.fuentepeque);
+    }
+
+    public String getTexto() {
+        return texto;
+    }
+
+    public void setTexto(String texto) {
+        this.texto = texto;
     }
 }

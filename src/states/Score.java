@@ -31,7 +31,8 @@ public class Score extends State{
                     public void doAction() {
                         State.cambiarEstado(new EstadoMenu());
                     }
-                });
+                },7
+                );
 
         scoreComp = new Comparator<DatoPuntuacion>() {
             @Override

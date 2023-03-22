@@ -25,6 +25,7 @@ public class PowerUps extends MovingObject{
         duration = 0;
         recoger = new Sonido(Assets.powerUpSound);
     }
+
     void ejecutarAccion(){
         accion.doAction();
         recoger.play();

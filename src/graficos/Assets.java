@@ -1,10 +1,18 @@
 package graficos;
 
+import states.EstadoMenu;
+import states.EstadoOpciones;
+import states.State;
+
 import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Assets {
+    //Modos
+    public static boolean tripsMode;
+    public static boolean putoMode;
+
     //fondo
     public static BufferedImage fondo;
 
@@ -53,7 +61,21 @@ public class Assets {
 
     //Sonido
     public static Clip musica,explosion,lose,disparoJugador,disparoAlien,overheat,powerUpSound;
-
+    public static void cambiarModoTrips(){
+        tripsMode = !tripsMode;
+        putoMode = false;
+        init();
+    }
+    public static void cambiarPutoMode(){
+        putoMode = !putoMode;
+        tripsMode = false;
+        init();
+    }
+    public static void cambiarNormal(){
+        putoMode = false;
+        tripsMode = false;
+        init();
+    }
     public static void init(){
         fondo = Loader.imageLoader("/res/Fondo/blue.png");
         jugador = Loader.imageLoader("/res/ships/player.png");
@@ -78,21 +100,56 @@ public class Assets {
         overheat = Loader.loadSonido("/res/Sonidos/sfx_overheat.wav");
         powerUpSound = Loader.loadSonido("/res/Sonidos/sfx_shieldUp.wav");
 
+        if(tripsMode){
+            System.out.println("tripsmode on");
+            for(int i = 0;i<grandes.length;i++){
+                grandes[i] = Loader.imageLoader("/res/asteroides/tripsteroide_big.png");
+            }
+            for(int i = 0;i<medianos.length;i++){
+                medianos[i] = Loader.imageLoader("/res/asteroides/tripsteroide_mid.png");
+            }
+            for(int i = 0;i<peques.length;i++){
+                peques[i] = Loader.imageLoader("/res/asteroides/tripsteroide_little.png");
+            }
+            for(int i = 0;i<enanos.length;i++){
+                enanos[i] = Loader.imageLoader("/res/asteroides/tripsteroide_tiny.png");
+            }
+        }
+        if(putoMode){
+            System.out.println("putomode on");
+            for(int i = 0;i<grandes.length;i++){
+                grandes[i] = Loader.imageLoader("/res/asteroides/putocarabig.png");
+            }
+            for(int i = 0;i<medianos.length;i++){
+                medianos[i] = Loader.imageLoader("/res/asteroides/putocaramid.png");
+            }
+            for(int i = 0;i<peques.length;i++){
+                peques[i] = Loader.imageLoader("/res/asteroides/putocaralil.png");
+            }
+            for(int i = 0;i<enanos.length;i++){
+                enanos[i] = Loader.imageLoader("/res/asteroides/putocaratiny.png");
+            }
+        }
+        if(!tripsMode && !putoMode){
+            System.out.println("normalmode on");
+            for(int i = 0;i<grandes.length;i++){
+                grandes[i] = Loader.imageLoader("/res/asteroides/meteorGrey_big3.png");
+            }
+            for(int i = 0;i<medianos.length;i++){
+                medianos[i] = Loader.imageLoader("/res/asteroides/meteorGrey_med1.png");
+            }
+            for(int i = 0;i<peques.length;i++){
+                peques[i] = Loader.imageLoader("/res/asteroides/meteorGrey_small1.png");
+            }
+            for(int i = 0;i<enanos.length;i++){
+                enanos[i] = Loader.imageLoader("/res/asteroides/meteorGrey_tiny1.png");
+            }
+        }
+
         for(int i = 0;i<barraLaser.length;i++){
             barraLaser[i] = Loader.imageLoader("/res/barraLaser/"+i+".png");
         }
-        for(int i = 0;i<grandes.length;i++){
-            grandes[i] = Loader.imageLoader("/res/asteroides/meteorGrey_big3.png");
-        }
-        for(int i = 0;i<medianos.length;i++){
-            medianos[i] = Loader.imageLoader("/res/asteroides/meteorGrey_med1.png");
-        }
-        for(int i = 0;i<peques.length;i++){
-            peques[i] = Loader.imageLoader("/res/asteroides/meteorGrey_small1.png");
-        }
-        for(int i = 0;i<enanos.length;i++){
-            enanos[i] = Loader.imageLoader("/res/asteroides/meteorGrey_tiny1.png");
-        }
+
         for(int i = 0;i < exp.length; i++){
             exp[i] = Loader.imageLoader("/res/Explosiones/"+i+".png");
         }

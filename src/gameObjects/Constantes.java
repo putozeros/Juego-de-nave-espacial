@@ -3,6 +3,8 @@ package gameObjects;
 import javax.swing.filechooser.FileSystemView;
 
 public class Constantes {
+    //botones menu
+    public static String botonTextoJugar = "JUGAR";
 
     // dimensiones de la ventana
     public static final int WIDTH = 1280;
@@ -32,9 +34,6 @@ public class Constantes {
 
     public static final int UFO_SPAWN_RATE = 10000;
 
-    // Propiedades de menú
-    public static final String PLAY = "JUGAR";
-    public static final String EXIT = "SALIR";
 
     // Guardado de datos
     public static final String SCORE_PATH = FileSystemView.getFileSystemView().getDefaultDirectory().getPath() +
