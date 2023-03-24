@@ -66,7 +66,7 @@ public class Asteroide extends MovingObject{
         Sonido sonido = new Sonido(Assets.explosion);
         sonido.play();
         gameState.dividirAsteroide(this);
-        gameState.playExplosion(posicion);
+        gameState.playExplosion(new Vector2D(this.getCenter()));
         gameState.addpuntuacion(Constantes.ASTEROIDE_SCORE, posicion);
         super.Destruir();
     }

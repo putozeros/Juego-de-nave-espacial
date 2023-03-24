@@ -1,11 +1,13 @@
 package states;
 
+import IO.JSONParser;
 import UI.Accion;
 import UI.Buttones;
 import gameObjects.Constantes;
 import graficos.Assets;
 
 import java.awt.*;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import static graficos.Assets.*;
@@ -66,7 +68,7 @@ public class EstadoMenu extends State{
                 "PUNTOS",
                 new Accion() {
                     @Override
-                    public void doAction() {
+                    public void doAction(){
                         State.cambiarEstado(new Score());
                     }
                 },

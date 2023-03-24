@@ -1,5 +1,6 @@
 package gameObjects;
 
+import UI.Accion;
 import graficos.Assets;
 import graficos.Sonido;
 import math.Vector2D;
@@ -106,10 +107,13 @@ public class Ufo extends MovingObject{
 
     @Override
     public void Destruir(){
-        gameState.playExplosion(posicion);
+        gameState.playExplosion(new Vector2D(this.getCenter()));
         gameState.addpuntuacion(Constantes.UFO_SCORE, posicion);
         Sonido sonido = new Sonido(Assets.explosion);
         sonido.play();
+        Accion accionMoneda = () -> gameState.addMoney(1,this.getPosicion());
+        MonedaPowerUps moneda = new MonedaPowerUps(new Vector2D(this.getCenter()),Assets.coin,accionMoneda,gameState);
+        gameState.getMovingObjects().add(moneda);
         super.Destruir();
     }
 

@@ -35,6 +35,8 @@ public class Assets {
     // numeros
     public static BufferedImage[] num = new BufferedImage[11];
     public static BufferedImage vidas;
+    public static BufferedImage money;
+    public static BufferedImage coin;
 
     // explosiones
     public static BufferedImage[] exp = new BufferedImage[9];
@@ -60,7 +62,7 @@ public class Assets {
 
 
     //Sonido
-    public static Clip musica,explosion,lose,disparoJugador,disparoAlien,overheat,powerUpSound;
+    public static Clip musica,explosion,lose,disparoJugador,disparoAlien,overheat,powerUpSound,monetizacion;
     public static void cambiarModoTrips(){
         tripsMode = !tripsMode;
         putoMode = false;
@@ -91,6 +93,8 @@ public class Assets {
         fuentepeque = Loader.loadFuente("/res/Fuentes/kenvector_future.ttf",22);
         orbe = Loader.imageLoader("/res/PowerUps/orbe.png");
         escudito = Loader.imageLoader("/res/PowerUps/scudo.png");
+        money = Loader.imageLoader("/res/Money/dinieropeque.png");
+        coin = Loader.imageLoader("/res/Money/coin.png");
 
         musica = Loader.loadSonido("/res/Sonidos/musica.wav");
         explosion = Loader.loadSonido("/res/Sonidos/explosion.wav");
@@ -99,9 +103,9 @@ public class Assets {
         disparoAlien = Loader.loadSonido("/res/Sonidos/sfx_laser1.wav");
         overheat = Loader.loadSonido("/res/Sonidos/sfx_overheat.wav");
         powerUpSound = Loader.loadSonido("/res/Sonidos/sfx_shieldUp.wav");
+        monetizacion = Loader.loadSonido("/res/Sonidos/monetizar.wav");
 
         if(tripsMode){
-            System.out.println("tripsmode on");
             for(int i = 0;i<grandes.length;i++){
                 grandes[i] = Loader.imageLoader("/res/asteroides/tripsteroide_big.png");
             }
@@ -116,7 +120,6 @@ public class Assets {
             }
         }
         if(putoMode){
-            System.out.println("putomode on");
             for(int i = 0;i<grandes.length;i++){
                 grandes[i] = Loader.imageLoader("/res/asteroides/putocarabig.png");
             }
@@ -131,7 +134,6 @@ public class Assets {
             }
         }
         if(!tripsMode && !putoMode){
-            System.out.println("normalmode on");
             for(int i = 0;i<grandes.length;i++){
                 grandes[i] = Loader.imageLoader("/res/asteroides/meteorGrey_big3.png");
             }

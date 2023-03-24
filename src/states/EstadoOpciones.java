@@ -2,7 +2,6 @@ package states;
 
 import UI.Accion;
 import UI.Buttones;
-import gameObjects.Constantes;
 import graficos.Assets;
 
 import java.awt.*;

@@ -25,14 +25,22 @@ public class JSONParser {
         for(int i = 0;i<jsonList.length();i++){
             JSONObject obj = (JSONObject) jsonList.get(i);
             DatoPuntuacion datos = new DatoPuntuacion();
-            datos.setScore(obj.getInt("score"));
-            datos.setDate(obj.getString("date"));
+            if(obj.has("score")){
+                datos.setScore(obj.getInt("score"));
+            }
+            if(obj.has("date")){
+                datos.setDate(obj.getString("date"));
+            }
+            if(obj.has("coins")){
+                datos.setCoins(obj.getInt("coins"));
+            }
+
             listaDatos.add(datos);
         }
         return listaDatos;
     }
 
-    public static void escribirArchivo(ArrayList<DatoPuntuacion> listaDatos) throws IOException {
+    public static void escribirArchivo(ArrayList<DatoPuntuacion> listaDatos, int coins) throws IOException {
         File outputFile = new File(Constantes.SCORE_PATH);
 
         outputFile.getParentFile().mkdir();
@@ -44,10 +52,23 @@ public class JSONParser {
             JSONObject obj = new JSONObject();
             obj.put("score",dato.getScore());
             obj.put("date",dato.getDate());
+            obj.put("coins",dato.getCoins());
             jList.put(obj);
         }
         BufferedWriter writer = Files.newBufferedWriter(Paths.get(outputFile.toURI()));
         jList.write(writer);
         writer.close();
+    }
+    public static int getCoinsTotal() throws FileNotFoundException{
+        int coinsTotal = 0;
+        ArrayList<DatoPuntuacion> listaDatos = leerArchivo();
+        for(DatoPuntuacion dato:listaDatos){
+            coinsTotal+=dato.getCoins();
+        }
+        return coinsTotal;
+    }
+    public void mostrarMonedasTotales() throws FileNotFoundException{
+        int coinsTotal = JSONParser.getCoinsTotal();
+        System.out.println("Monedas totales = "+coinsTotal);
     }
 }

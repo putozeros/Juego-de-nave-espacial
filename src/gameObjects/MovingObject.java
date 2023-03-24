@@ -5,6 +5,7 @@ import states.GameState;
 
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public abstract class MovingObject extends GameObject{
@@ -16,7 +17,6 @@ public abstract class MovingObject extends GameObject{
     protected int ancho;
     protected int alto;
     protected GameState gameState;
-
     protected boolean Dead;
 
     public MovingObject(Vector2D posicion, Vector2D speed, double maxSpeed, BufferedImage texture, GameState gameState) {
@@ -50,7 +50,6 @@ public abstract class MovingObject extends GameObject{
         }
     }
 
-
     private void objectColision(MovingObject a, MovingObject b){
 
         Player p = null;
@@ -71,25 +70,18 @@ public abstract class MovingObject extends GameObject{
             b.Destruir();
             return;
         }
-        if(a instanceof Asteroide && b instanceof Laser){
+
+
+        if(b instanceof Player && a instanceof MonedaPowerUps){
+            ((MonedaPowerUps)a).hacerAccion();
             a.Destruir();
-            b.Destruir();
-        }
-        if(a instanceof Ufo && b instanceof Asteroide){
-            return;
         }
 
-        if(p != null){
-            if(a instanceof Player){
+        if (a instanceof Player && b instanceof PowerUps) {
                 ((PowerUps)b).ejecutarAccion();
                 b.Destruir();
-            }else if(b instanceof Player){
-                ((PowerUps)a).ejecutarAccion();
-                a.Destruir();
-            }
         }
     }
-
 
     protected void Destruir(){
         gameState.getMovingObjects().remove(this);
@@ -101,5 +93,4 @@ public abstract class MovingObject extends GameObject{
     public boolean isDead(){
         return Dead;
     }
-
 }

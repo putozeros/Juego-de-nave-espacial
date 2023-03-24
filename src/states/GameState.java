@@ -25,6 +25,7 @@ public class GameState extends State{
     private ArrayList<Mensaje> mensajes = new ArrayList<Mensaje>();
     private int puntuacion = 0;
     private int vidas = 3;
+    private int money = 0;
     private int asteroides;
     private int waves = 1;
     private boolean gameOver;
@@ -37,7 +38,7 @@ public class GameState extends State{
         movingObjects.add(player);
         musica = new Sonido(Assets.musica);
         musica.cambiarVolumen(-10);
-        musica.loop();
+        //musica.loop();
         asteroides = 1;
         iniciarOleada();
         ufoSpawner = new Crono();
@@ -53,6 +54,10 @@ public class GameState extends State{
         mensajes.add(new Mensaje(posicion,true, "+"+value+" puntos",Color.WHITE,false,Assets.fuentepeque));
     }
 
+    public void addMoney (int value, Vector2D posicion){
+        money += value;
+        mensajes.add(new Mensaje(posicion,true,"+"+value+" coin",Color.yellow,false,Assets.fuentepeque));
+    }
 
     public void dividirAsteroide(Asteroide asteroide){
         Size size = asteroide.getSize();
@@ -195,7 +200,6 @@ public class GameState extends State{
     }
     public void updatear(float dt){
 
-
         for(int i = 0;i<movingObjects.size();i++){
             movingObjects.get(i).actualizar(dt);
         }
@@ -211,15 +215,13 @@ public class GameState extends State{
 
             try {
                 ArrayList<DatoPuntuacion> datalist = JSONParser.leerArchivo();
-                datalist.add(new DatoPuntuacion(puntuacion));
-                JSONParser.escribirArchivo(datalist);
+                datalist.add(new DatoPuntuacion(puntuacion,money));
+                JSONParser.escribirArchivo(datalist,money);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             State.cambiarEstado(new EstadoMenu());
         }
-
-
 
         if(!ufoSpawner.isRunning()){
             ufoSpawner.run(Constantes.UFO_SPAWN_RATE);
@@ -234,7 +236,6 @@ public class GameState extends State{
                 return;
             }
         }
-
         iniciarOleada();
     }
 
@@ -258,12 +259,24 @@ public class GameState extends State{
             g2d.drawImage(anim.getCurrentFrame(),(int)anim.getPosicion().getX(),(int)anim.getPosicion().getY(),null);
         }
         dibujarPuntos(g);
+        dibujarMoney(g);
         dibujarVidas(g);
     }
 
     public void dibujarPuntos(Graphics graphics){
         Vector2D posicion = new Vector2D(1120,20);
         String scoreToString = Integer.toString(puntuacion);
+        for (int i = 0;i<scoreToString.length();i++){
+            graphics.drawImage(Assets.num[Integer.parseInt(scoreToString.substring(i,i+1))],(int)posicion.getX(),
+                    (int)posicion.getY(),null);
+            posicion.setX(posicion.getX()+20);
+        }
+    }
+
+    public void dibujarMoney(Graphics graphics){
+        Vector2D posicion = new Vector2D(1120,50);
+        graphics.drawImage(Assets.money,1085,45,null);
+        String scoreToString = Integer.toString(money);
         for (int i = 0;i<scoreToString.length();i++){
             graphics.drawImage(Assets.num[Integer.parseInt(scoreToString.substring(i,i+1))],(int)posicion.getX(),
                     (int)posicion.getY(),null);
@@ -291,6 +304,10 @@ public class GameState extends State{
             graphics.drawImage(Assets.num[numero],(int)posicion.getX() +65,(int)posicion.getY()+8,null);
             posicion.setX(posicion.getX()+20);
         }
+    }
+    public void agregarObjeto(MovingObject objeto,Vector2D posicion){
+        objeto.setPosicion(posicion);
+
     }
 
     public ArrayList<MovingObject> getMovingObjects() {
