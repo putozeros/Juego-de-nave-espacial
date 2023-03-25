@@ -24,14 +24,14 @@ public class Score extends State{
     private DatoPuntuacion[] auxArray;
 
     public Score() {
-        retornar = new Buttones(Assets.botonGris, Assets.botonRojo, Assets.botonGris.getHeight(),
-                Constantes.HEIGHT - Assets.botonGris.getHeight() * 2, "VOLVER",
+        retornar = new Buttones(Assets.botonGris, Assets.botonRojo, 100,
+                550, "VOLVER",
                 new Accion() {
                     @Override
                     public void doAction() {
                         State.cambiarEstado(new EstadoMenu());
                     }
-                },7
+                },25
                 );
 
         scoreComp = new Comparator<DatoPuntuacion>() {

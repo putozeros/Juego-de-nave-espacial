@@ -25,7 +25,7 @@ public class GameState extends State{
     private ArrayList<Mensaje> mensajes = new ArrayList<Mensaje>();
     private int puntuacion = 0;
     private int vidas = 3;
-    private int money = 0;
+    private int money = 5000;
     private int asteroides;
     private int waves = 1;
     private boolean gameOver;

@@ -37,6 +37,7 @@ public class Assets {
     public static BufferedImage vidas;
     public static BufferedImage money;
     public static BufferedImage coin;
+    public static BufferedImage pilamonedas;
 
     // explosiones
     public static BufferedImage[] exp = new BufferedImage[9];
@@ -95,6 +96,7 @@ public class Assets {
         escudito = Loader.imageLoader("/res/PowerUps/scudo.png");
         money = Loader.imageLoader("/res/Money/dinieropeque.png");
         coin = Loader.imageLoader("/res/Money/coin.png");
+        pilamonedas = Loader.imageLoader("/res/Money/pilamonedas.png");
 
         musica = Loader.loadSonido("/res/Sonidos/musica.wav");
         explosion = Loader.loadSonido("/res/Sonidos/explosion.wav");

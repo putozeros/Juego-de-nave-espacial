@@ -55,8 +55,8 @@ public class EstadoMenu extends State{
                 Assets.botonRojo,
                 545,
                 540,
-                "SALIR",
-                () -> System.exit(0),
+                "TIENDA",
+                () -> State.cambiarEstado(new EstadoTienda()),
                 2
         ));
 
@@ -86,6 +86,15 @@ public class EstadoMenu extends State{
                     }
                 },
                 4
+        ));
+        boton.add(new Buttones(
+                botonGris,
+                botonRojo,
+                1030,
+                600,
+                "salir",
+                () -> System.exit(0),
+                9
         ));
     }
 

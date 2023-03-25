@@ -51,7 +51,7 @@ public class EstadoOpciones extends State{
                     cambiarNormal();
                     State.cambiarEstado(new EstadoMenu());
                 } ,
-                6
+                7
         ));
 
         retornar = new Buttones(
@@ -65,7 +65,7 @@ public class EstadoOpciones extends State{
                         State.cambiarEstado(new EstadoMenu());
                     }
                 },
-                6
+                8
         );
         boton.add(retornar);
     }

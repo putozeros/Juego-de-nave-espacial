@@ -67,8 +67,4 @@ public class JSONParser {
         }
         return coinsTotal;
     }
-    public void mostrarMonedasTotales() throws FileNotFoundException{
-        int coinsTotal = JSONParser.getCoinsTotal();
-        System.out.println("Monedas totales = "+coinsTotal);
-    }
 }
