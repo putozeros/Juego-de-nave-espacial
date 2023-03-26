@@ -24,7 +24,7 @@ public class GameState extends State{
     private ArrayList<Animacion> explosiones = new ArrayList<Animacion>();
     private ArrayList<Mensaje> mensajes = new ArrayList<Mensaje>();
     private int puntuacion = 0;
-    private int vidas = 3;
+    private int vidas = 1;
     private int money = 0;
     private int asteroides;
     private int waves = 1;
@@ -32,7 +32,7 @@ public class GameState extends State{
     private Sonido musica;
     private Crono timerGameOver,ufoSpawner;
     public GameState(){
-        player=new Player(PLAYER_START_POSITION, new Vector2D(),6 , Assets.jugador,this);
+        player=new Player(PLAYER_START_POSITION, new Vector2D(),6 , Assets.jugador,this,2400);
         timerGameOver = new Crono();
         gameOver = false;
         movingObjects.add(player);
@@ -262,7 +262,6 @@ public class GameState extends State{
         }
         dibujarPuntos(g);
         dibujarMoney(g);
-        dibujarVidas(g);
     }
 
     public void dibujarPuntos(Graphics graphics){
@@ -286,27 +285,6 @@ public class GameState extends State{
         }
     }
 
-    public void dibujarVidas(Graphics graphics){
-        if(vidas < 1){
-            return;
-        }
-        Vector2D posicionVidas = new Vector2D(25,25);
-        graphics.drawImage(Assets.vidas,(int)posicionVidas.getX(),(int)posicionVidas.getY(),null);
-        graphics.drawImage(Assets.num[10],(int)posicionVidas.getX() +45,(int)posicionVidas.getY() +8, null);
-
-        String vidasAString = Integer.toString(vidas);
-
-        Vector2D posicion = new Vector2D(posicionVidas.getX(),posicionVidas.getY());
-
-        for (int i = 0; i <vidasAString.length();i++){
-            int numero = Integer.parseInt(vidasAString.substring(i,i+1));
-            if (numero <=0){
-                break;
-            }
-            graphics.drawImage(Assets.num[numero],(int)posicion.getX() +65,(int)posicion.getY()+8,null);
-            posicion.setX(posicion.getX()+20);
-        }
-    }
     public void agregarObjeto(MovingObject objeto,Vector2D posicion){
         objeto.setPosicion(posicion);
     }

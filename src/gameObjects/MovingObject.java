@@ -60,6 +60,9 @@ public abstract class MovingObject extends GameObject{
             if(m instanceof Asteroide && this instanceof Ufo){
                 continue;
             }
+            if(m instanceof Asteroide && this instanceof Player){
+                damage(5);
+            }
             double distancia = m.getCenter().substract(getCenter()).getMagnitud();
 
             if(distancia < (m.ancho/2-5) + ancho/2 && movingObjects.contains(this)){

@@ -63,7 +63,7 @@ public class Assets {
 
 
     //Sonido
-    public static Clip musica,explosion,lose,disparoJugador,disparoAlien,overheat,powerUpSound,monetizacion,hit;
+    public static Clip musica,explosion,lose,disparoJugador,disparoAlien,overheat,powerUpSound,monetizacion,hit,playerHit;
     public static void cambiarModoTrips(){
         tripsMode = !tripsMode;
         putoMode = false;
@@ -107,6 +107,7 @@ public class Assets {
         powerUpSound = Loader.loadSonido("/res/Sonidos/sfx_shieldUp.wav");
         monetizacion = Loader.loadSonido("/res/Sonidos/monetizar.wav");
         hit = Loader.loadSonido("/res/Sonidos/HitBajo.wav");
+        playerHit = Loader.loadSonido("/res/Sonidos/PlayerHit.wav");
 
         if(tripsMode){
             for(int i = 0;i<grandes.length;i++){

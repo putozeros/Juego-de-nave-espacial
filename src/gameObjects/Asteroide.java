@@ -55,6 +55,21 @@ public class Asteroide extends MovingObject{
         }
         angle += Constantes.DELTAANGLE/2;
     }
+    @Override
+    protected void collidesWith(){
+        ArrayList<MovingObject> movingObjects = gameState.getMovingObjects();
+        for(int i=0;i<movingObjects.size();i++){
+            MovingObject m = movingObjects.get(i);
+            if(m instanceof Player && colisionaCon(m)){
+                m.damage(5);
+                break;
+            }
+        }
+    }
+    public boolean colisionaCon(MovingObject m){
+        double distancia = m.getCenter().substract(getCenter()).getMagnitud();
+        return distancia < m.ancho/2 + ancho/2;
+    }
 
     private Vector2D fleeForce(){
         Vector2D desiredSpeed = gameState.getPlayer().getCenter().substract(getCenter());

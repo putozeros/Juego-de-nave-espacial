@@ -10,7 +10,6 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.stream.Stream;
 
 public class Ufo extends MovingObject{
 
@@ -46,6 +45,21 @@ public class Ufo extends MovingObject{
             }
         }
         return seekForce(currentNode);
+    }
+    @Override
+    protected void collidesWith(){
+        ArrayList<MovingObject> movingObjects = gameState.getMovingObjects();
+        for(int i=0;i<movingObjects.size();i++){
+            MovingObject m = movingObjects.get(i);
+            if(m instanceof Player && colisionaCon(m)){
+                m.damage(5);
+                break;
+            }
+        }
+    }
+    public boolean colisionaCon(MovingObject m){
+        double distancia = m.getCenter().substract(getCenter()).getMagnitud();
+        return distancia < m.ancho/2 + ancho/2;
     }
 
     private Vector2D seekForce(Vector2D target){

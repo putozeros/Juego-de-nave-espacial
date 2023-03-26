@@ -13,27 +13,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Player extends MovingObject{
 
     private long spawnTime,shieldTime;
-    private Vector2D heading;
-    private Vector2D aceleracion;
-    private boolean accelerating = false;
-    private Crono fireRate;
-    private boolean spawning=true, visible, shieldOn;
-    private Crono spawntime,flickering;
-    private int contador = 0;
-    private boolean shotAllowed;
+    private Vector2D heading, aceleracion;
+    private Crono fireRate, spawntime,flickering;
+    private boolean spawning=true, visible, shieldOn, shotAllowed, accelerating=false;
+    private int contador = 0,vitalidad,barraLaserIndex;
     private Timer temporizador;
     private BufferedImage barraActual;
-    private int barraLaserIndex;
     private Animacion shieldEffect;
 
-    public Player(Vector2D posicion, Vector2D speed,double maxSpeed, BufferedImage texture, GameState gameState) {
+    public Player(Vector2D posicion, Vector2D speed,double maxSpeed, BufferedImage texture, GameState gameState,int vitalidad) {
         super(posicion, speed, maxSpeed, texture, gameState);
         heading = new Vector2D(0,1);
         this.gameState = gameState;
+        this.vitalidad = vitalidad;
         aceleracion = new Vector2D();
         fireRate = new Crono();
         spawntime = new Crono();
@@ -135,6 +132,30 @@ public class Player extends MovingObject{
         flickering.actualizar();
         collidesWith();
 
+    }
+    @Override
+    protected void collidesWith(){
+        ArrayList<MovingObject> movingObjects = gameState.getMovingObjects();
+        for(int i=0;i<movingObjects.size();i++){
+            MovingObject m = movingObjects.get(i);
+            if(m instanceof Asteroide && colisionaCon(m)){
+                damage(5);
+                break;
+            }
+        }
+    }
+    public boolean colisionaCon(MovingObject m){
+        double distancia = m.getCenter().substract(getCenter()).getMagnitud();
+        return distancia < m.ancho/2 + ancho/2;
+    }
+    public void damage(int danio){
+        vitalidad -= danio;
+        System.out.println(""+vitalidad);
+        Sonido hit = new Sonido(Assets.playerHit);
+        hit.play();
+        if(vitalidad<=0){
+            Destruir();
+        }
     }
     public void setEscudo(){
         if(shieldOn){

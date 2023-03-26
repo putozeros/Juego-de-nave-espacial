@@ -30,6 +30,11 @@ public class Laser extends MovingObject{
                 Destruir();
                 break;
             }
+            if(m instanceof Player && colisionaCon(m)){
+                m.damage(5);
+                Destruir();
+                break;
+            }
         }
     }
 
