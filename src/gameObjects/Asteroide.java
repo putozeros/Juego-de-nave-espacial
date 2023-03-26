@@ -4,19 +4,22 @@ import graficos.Assets;
 import graficos.Sonido;
 import math.Vector2D;
 import states.GameState;
+import gameObjects.Mensaje;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Asteroide extends MovingObject{
-
+    private ArrayList<Mensaje> mensajes = new ArrayList<Mensaje>();
     private Size size;
 
-    public Asteroide(Vector2D posicion, Vector2D speed, double maxSpeed, BufferedImage texture, GameState gameState, Size size) {
-        super(posicion, speed, maxSpeed, texture, gameState);
+    public Asteroide(Vector2D posicion, Vector2D speed, double maxSpeed, BufferedImage texture, GameState gameState, Size size, int vitalidad) {
+        super(posicion, speed, maxSpeed, texture, gameState,vitalidad);
         this.size = size;
         this.speed = speed.escalar(maxSpeed);
+        this.vitalidad = vitalidad;
     }
 
     @Override
@@ -60,7 +63,14 @@ public class Asteroide extends MovingObject{
         Vector2D v = new Vector2D(speed);
         return v.substract(desiredSpeed);
     }
-
+    @Override
+    public void damage(int danio){
+        mensajes.add(new Mensaje(posicion,true,""+danio, Color.yellow,false, Assets.fuentepeque));
+        vitalidad -= danio;
+        if(vitalidad <=0){
+            Destruir();
+        }
+    }
     @Override
     public void Destruir(){
         Sonido sonido = new Sonido(Assets.explosion);
@@ -79,6 +89,12 @@ public class Asteroide extends MovingObject{
         at = AffineTransform.getTranslateInstance(posicion.getX(),posicion.getY());
 
         at.rotate(angle, ancho/2, alto/2);
+        for(int i = 0;i < mensajes.size();i++){
+            mensajes.get(i).dibujar(g2d);
+            if(mensajes.get(i).isDead()){
+                mensajes.remove(i);
+            }
+        }
 
         g2d.drawImage(texture, at, null);
     }
@@ -86,4 +102,5 @@ public class Asteroide extends MovingObject{
     public Size getSize() {
         return size;
     }
+
 }

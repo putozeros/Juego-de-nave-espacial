@@ -1,6 +1,5 @@
 package gameObjects;
 
-import UI.Accion;
 import graficos.Text;
 import math.Vector2D;
 import states.GameState;

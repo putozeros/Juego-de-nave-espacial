@@ -5,6 +5,7 @@ import graficos.Assets;
 import graficos.Sonido;
 import math.Vector2D;
 import states.GameState;
+import gameObjects.Mensaje;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -19,15 +20,18 @@ public class Ufo extends MovingObject{
     private boolean following;
 
     private Crono fireRate;
+    private int vitalidad;
+    private ArrayList<Mensaje> mensajes = new ArrayList<Mensaje>();
 
     public Ufo(Vector2D posicion, Vector2D speed, double maxSpeed, BufferedImage texture,
-               ArrayList<Vector2D> path, GameState gameState) {
+               ArrayList<Vector2D> path, GameState gameState, int vitalidad) {
         super(posicion, speed, maxSpeed, texture, gameState);
         this.path = path;
         index=0;
         following = true;
         fireRate = new Crono();
         fireRate.run(Constantes.UFO_FIRERATE);
+        this.vitalidad = vitalidad;
     }
 
     private Vector2D pathFollowing(){
@@ -106,6 +110,15 @@ public class Ufo extends MovingObject{
     }
 
     @Override
+    public void damage(int danio){
+        mensajes.add(new Mensaje(posicion,true,""+danio,Color.yellow,false,Assets.fuentepeque));
+        vitalidad -= danio;
+        if(vitalidad <=0){
+            Destruir();
+        }
+    }
+
+    @Override
     public void Destruir(){
         gameState.playExplosion(new Vector2D(this.getCenter()));
         gameState.addpuntuacion(Constantes.UFO_SCORE, posicion);
@@ -121,6 +134,12 @@ public class Ufo extends MovingObject{
     public void dibujar(Graphics graphics) {
         Graphics2D g2d = (Graphics2D) graphics;
         at = AffineTransform.getTranslateInstance(posicion.getX(),posicion.getY());
+        for(int i = 0;i < mensajes.size();i++){
+            mensajes.get(i).dibujar(g2d);
+            if(mensajes.get(i).isDead()){
+                mensajes.remove(i);
+            }
+        }
         at.rotate(angle,ancho/2,alto/2);
         g2d.drawImage(texture,at,null);
     }

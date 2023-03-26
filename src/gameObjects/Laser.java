@@ -6,6 +6,7 @@ import states.GameState;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Laser extends MovingObject{
     public Laser(Vector2D posicion, Vector2D speed, double maxSpeed, double angle, BufferedImage texture, GameState gameState) {
@@ -14,6 +15,29 @@ public class Laser extends MovingObject{
         this.speed = speed.escalar(maxSpeed+10);
     }
 
+    @Override
+    protected void collidesWith(){
+        ArrayList<MovingObject> movingObjects = gameState.getMovingObjects();
+        for(int i=0;i<movingObjects.size();i++){
+            MovingObject m = movingObjects.get(i);
+            if(m instanceof Asteroide && colisionaCon(m)){
+                m.damage(5);
+                Destruir();
+                break;
+            }
+            if(m instanceof Ufo && colisionaCon(m)){
+                m.damage(5);
+                Destruir();
+                break;
+            }
+        }
+    }
+
+
+    public boolean colisionaCon(MovingObject m){
+        double distancia = m.getCenter().substract(getCenter()).getMagnitud();
+        return distancia < m.ancho/2 + ancho/2;
+    }
     @Override
     public void actualizar(float dt) {
         posicion = posicion.add(speed);

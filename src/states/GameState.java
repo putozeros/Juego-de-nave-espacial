@@ -51,7 +51,6 @@ public class GameState extends State{
         if(puntuacion % 100 == 0){
             spawnerPowerUp();
         }
-        mensajes.add(new Mensaje(posicion,true, "+"+value+" puntos",Color.WHITE,false,Assets.fuentepeque));
     }
 
     public void addMoney (int value, Vector2D posicion){
@@ -86,7 +85,8 @@ public class GameState extends State{
                     Constantes.asteroidSpeed*Math.random() +1,
                     texturas[(int)(Math.random()*texturas.length)],
                     this,
-                    newSize
+                    newSize,
+                    6
             ));
         }
     }
@@ -110,7 +110,8 @@ public class GameState extends State{
                     Constantes.asteroidSpeed*Math.random() +1,
                     texturas,
                     this,
-                    Size.BIG
+                    Size.BIG,
+                    11
             ));
         }
         asteroides++;
@@ -155,7 +156,8 @@ public class GameState extends State{
                 Constantes.UFO_MAX_SPEED,
                 Assets.ufo,
                 path,
-                this
+                this,
+                50
         ));
     }
     private void spawnerPowerUp(){
