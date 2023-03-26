@@ -62,7 +62,7 @@ public abstract class MovingObject extends GameObject{
             }
             double distancia = m.getCenter().substract(getCenter()).getMagnitud();
 
-            if(distancia < m.ancho/2 + ancho/2 && movingObjects.contains(this)){
+            if(distancia < (m.ancho/2-5) + ancho/2 && movingObjects.contains(this)){
                 objectColision(m,this);
             }
         }
@@ -101,13 +101,7 @@ public abstract class MovingObject extends GameObject{
     }
 
     public void damage(int danio){
-        System.out.println(""+vitalidad);
-        System.out.println(""+danio);
-        vitalidad -= danio;
-        System.out.println(""+vitalidad);
-        if(vitalidad <=0){
-            Destruir();
-        }
+
     }
 
     protected void Destruir(){

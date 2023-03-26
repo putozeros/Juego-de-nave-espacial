@@ -5,12 +5,12 @@ import graficos.Assets;
 import graficos.Sonido;
 import math.Vector2D;
 import states.GameState;
-import gameObjects.Mensaje;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.stream.Stream;
 
 public class Ufo extends MovingObject{
 
@@ -109,10 +109,12 @@ public class Ufo extends MovingObject{
         fireRate.actualizar();
     }
 
-    @Override
     public void damage(int danio){
         mensajes.add(new Mensaje(posicion,true,""+danio,Color.yellow,false,Assets.fuentepeque));
+        Sonido hit = new Sonido(Assets.hit);
+        hit.play();
         vitalidad -= danio;
+        System.out.println(""+vitalidad);
         if(vitalidad <=0){
             Destruir();
         }
@@ -134,6 +136,7 @@ public class Ufo extends MovingObject{
     public void dibujar(Graphics graphics) {
         Graphics2D g2d = (Graphics2D) graphics;
         at = AffineTransform.getTranslateInstance(posicion.getX(),posicion.getY());
+
         for(int i = 0;i < mensajes.size();i++){
             mensajes.get(i).dibujar(g2d);
             if(mensajes.get(i).isDead()){

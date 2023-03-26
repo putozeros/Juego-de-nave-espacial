@@ -4,7 +4,6 @@ import graficos.Assets;
 import graficos.Sonido;
 import math.Vector2D;
 import states.GameState;
-import gameObjects.Mensaje;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -63,9 +62,11 @@ public class Asteroide extends MovingObject{
         Vector2D v = new Vector2D(speed);
         return v.substract(desiredSpeed);
     }
-    @Override
+
     public void damage(int danio){
         mensajes.add(new Mensaje(posicion,true,""+danio, Color.yellow,false, Assets.fuentepeque));
+        Sonido hit = new Sonido(Assets.hit);
+        hit.play();
         vitalidad -= danio;
         if(vitalidad <=0){
             Destruir();

@@ -309,7 +309,6 @@ public class GameState extends State{
     }
     public void agregarObjeto(MovingObject objeto,Vector2D posicion){
         objeto.setPosicion(posicion);
-
     }
 
     public ArrayList<MovingObject> getMovingObjects() {
