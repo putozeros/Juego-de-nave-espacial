@@ -174,12 +174,17 @@ public class GameState extends State{
 
         switch(p){
             case VIDA:
+                int cantidadCura = 240;
                 accion = new Accion() {
                     @Override
                     public void doAction() {
-                        vidas ++;
+                        if(player.getVitalidad() + cantidadCura >= 2400){
+                            player.setVitalidad(2400);
+                        }else{
+                            player.setVitalidad(player.getVitalidad()+cantidadCura);
+                        }
                         mensajes.add(new Mensaje(
-                                posicion,false,"1 UP",Color.GREEN,false,Assets.fuentepeque));
+                                posicion,false,"HEALING",Color.GREEN,false,Assets.fuentepeque));
                     }
                 };
                 break;

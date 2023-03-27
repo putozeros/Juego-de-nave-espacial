@@ -42,8 +42,9 @@ public class Assets {
     // explosiones
     public static BufferedImage[] exp = new BufferedImage[9];
 
-    //barralaser
+    //barras
     public static BufferedImage[] barraLaser = new BufferedImage[11];
+    public static BufferedImage[] barraVida = new BufferedImage[101];
 
     // Asteroides
     public static BufferedImage[] grandes = new BufferedImage[4];
@@ -156,12 +157,18 @@ public class Assets {
             barraLaser[i] = Loader.imageLoader("/res/barraLaser/"+i+".png");
         }
 
+        for(int i = 0;i<barraVida.length;i++){
+            barraVida[i] = Loader.imageLoader("/res/barravida/"+i+".png");
+        }
+
         for(int i = 0;i < exp.length; i++){
             exp[i] = Loader.imageLoader("/res/Explosiones/"+i+".png");
         }
+
         for(int i = 0;i < num.length; i++) {
             num[i] = Loader.imageLoader("/res/numeros/"+i+".png");
         }
+
         for(int i = 0;i < escudo.length; i++) {
             escudo[i] = Loader.imageLoader("/res/PowerUps/escudo/"+i+".png");
         }
@@ -169,5 +176,8 @@ public class Assets {
 
     public static BufferedImage[] getBarraLaser() {
         return barraLaser;
+    }
+    public static BufferedImage[] getBarraVida(){
+        return barraVida;
     }
 }

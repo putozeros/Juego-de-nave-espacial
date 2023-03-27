@@ -150,7 +150,6 @@ public class Player extends MovingObject{
     }
     public void damage(int danio){
         vitalidad -= danio;
-        System.out.println(""+vitalidad);
         Sonido hit = new Sonido(Assets.playerHit);
         hit.play();
         if(vitalidad<=0){
@@ -163,12 +162,6 @@ public class Player extends MovingObject{
         }
         shieldOn=true;
     }
-
-    public BufferedImage getBarraLaser(){
-         int index = Math.max(0,Math.min(contador,Assets.getBarraLaser().length-1));
-         return Assets.getBarraLaser()[index];
-     }
-
 
     private void actualizarContador(){
         if(contador < 10){
@@ -237,6 +230,10 @@ public class Player extends MovingObject{
         g2d.drawImage(texture, at, null);
         BufferedImage barra = Assets.getBarraLaser()[contador];
         graphics.drawImage(barra,1150,550,null);
+
+        BufferedImage barraVida= Assets.getBarraVida()[vitalidad/24];
+        graphics.drawImage(barraVida,10,10,null);
+
     }
 
     public boolean isSpawning(){
@@ -244,5 +241,13 @@ public class Player extends MovingObject{
     }
     public boolean isShieldOn(){
         return shieldOn;
+    }
+
+    public int getVitalidad() {
+        return vitalidad;
+    }
+
+    public void setVitalidad(int vitalidad) {
+        this.vitalidad = vitalidad;
     }
 }

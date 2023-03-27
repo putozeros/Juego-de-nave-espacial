@@ -84,7 +84,7 @@ public class Ufo extends MovingObject{
         posicion = posicion.add(speed);
 
         if(posicion.getX() <-30 || posicion.getX() >Constantes.WIDTH+30 ||
-                posicion.getY() < -30 || posicion.getY() > Constantes.HEIGHT+30){
+                posicion.getY() < -100 || posicion.getY() > Constantes.HEIGHT+30){
             Destruir();
         }
 
