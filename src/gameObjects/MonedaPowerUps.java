@@ -10,7 +10,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class MonedaPowerUps extends PowerUps{
-
     private long duracion;
     private Accion accion;
     private Sonido monetizar;

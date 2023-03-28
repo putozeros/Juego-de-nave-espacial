@@ -17,13 +17,12 @@ import java.util.ArrayList;
 
 public class Player extends MovingObject{
 
-    private long spawnTime,shieldTime;
+    private long shieldTime;
     private Vector2D heading, aceleracion;
     private Crono fireRate, spawntime,flickering;
     private boolean spawning=true, visible, shieldOn, shotAllowed, accelerating=false;
-    private int contador = 0,vitalidad,barraLaserIndex;
+    private int contador = 0,vitalidad;
     private Timer temporizador;
-    private BufferedImage barraActual;
     private Animacion shieldEffect;
 
     public Player(Vector2D posicion, Vector2D speed,double maxSpeed, BufferedImage texture, GameState gameState,int vitalidad) {
@@ -35,7 +34,7 @@ public class Player extends MovingObject{
         fireRate = new Crono();
         spawntime = new Crono();
         flickering = new Crono();
-        temporizador = new Timer(250, new ActionListener() {
+        temporizador = new Timer(0, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 disminuirContador();
@@ -44,7 +43,6 @@ public class Player extends MovingObject{
         temporizador.start();
         shieldEffect = new Animacion(Assets.escudo,60,null);
         shotAllowed = true;
-        barraLaserIndex = 0;
     }
 
     @Override
@@ -71,7 +69,7 @@ public class Player extends MovingObject{
         if(shotAllowed){
             if(Keyboard.DISPARO && !fireRate.isRunning() && !spawning){
                 gameState.getMovingObjects().add(new Laser(getCenter().add(heading.escalar(ancho-30)), heading,
-                        Constantes.LASER_SPEED, angle, Assets.lazul, gameState));
+                        Constantes.LASER_SPEED, angle, Assets.lazul, gameState,5));
                 fireRate.run(Constantes.FIRERATE);
                 Sonido sonido = new Sonido(Assets.disparoJugador);
                 sonido.cambiarVolumen(-13);

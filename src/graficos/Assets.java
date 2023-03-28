@@ -1,9 +1,5 @@
 package graficos;
 
-import states.EstadoMenu;
-import states.EstadoOpciones;
-import states.State;
-
 import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -55,6 +51,7 @@ public class Assets {
     //power ups
     public static BufferedImage[] escudo = new BufferedImage[2];
     public static BufferedImage escudito;
+    public static BufferedImage putensia;
     public static BufferedImage orbe;
 
     //fuentes
@@ -98,6 +95,7 @@ public class Assets {
         money = Loader.imageLoader("/res/Money/dinieropeque.png");
         coin = Loader.imageLoader("/res/Money/coin.png");
         pilamonedas = Loader.imageLoader("/res/Money/pilamonedas.png");
+        putensia = Loader.imageLoader("/res/PowerUps/power.png");
 
         musica = Loader.loadSonido("/res/Sonidos/musica.wav");
         explosion = Loader.loadSonido("/res/Sonidos/explosion.wav");

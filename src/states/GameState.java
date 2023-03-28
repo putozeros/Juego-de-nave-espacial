@@ -13,6 +13,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import gameObjects.Laser;
 
 
 public class GameState extends State{
@@ -20,6 +21,7 @@ public class GameState extends State{
             Constantes.HEIGHT/2 - Assets.jugador.getHeight()/2);
 
     private Player player;
+    private Laser laser;
     private ArrayList<MovingObject> movingObjects = new ArrayList<MovingObject>();
     private ArrayList<Animacion> explosiones = new ArrayList<Animacion>();
     private ArrayList<Mensaje> mensajes = new ArrayList<Mensaje>();
@@ -185,6 +187,18 @@ public class GameState extends State{
                         }
                         mensajes.add(new Mensaje(
                                 posicion,false,"HEALING",Color.GREEN,false,Assets.fuentepeque));
+                    }
+                };
+                break;
+            case DAMAGE:
+                final int extraDamage = 20;
+                accion = new Accion() {
+                    @Override
+                    public void doAction() {
+                        Laser.setDamageBonus(extraDamage);
+                        mensajes.add(new Mensaje(
+                                posicion,false,"PUTENSIA!",Color.RED,false,Assets.fuentepeque
+                        ));
                     }
                 };
                 break;

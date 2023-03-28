@@ -109,7 +109,7 @@ public class Ufo extends MovingObject{
                     Constantes.LASER_SPEED/10,
                     currentAngle + Math.PI/2,
                     Assets.lrojo,
-                    gameState
+                    gameState,5
             );
 
             gameState.getMovingObjects().add(0,laser);
