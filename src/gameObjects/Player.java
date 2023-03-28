@@ -34,7 +34,7 @@ public class Player extends MovingObject{
         fireRate = new Crono();
         spawntime = new Crono();
         flickering = new Crono();
-        temporizador = new Timer(0, new ActionListener() {
+        temporizador = new Timer(250, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 disminuirContador();
