@@ -10,6 +10,7 @@ import java.awt.Graphics2D;
 import java.awt.Graphics;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class PowerUps extends MovingObject{
     private long duration;
@@ -27,7 +28,11 @@ public class PowerUps extends MovingObject{
     }
 
     void ejecutarAccion(){
-        accion.doAction();
+        try {
+            accion.doAction();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         recoger.play();
 
     }

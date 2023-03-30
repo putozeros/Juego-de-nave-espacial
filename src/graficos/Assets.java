@@ -15,6 +15,8 @@ public class Assets {
     //botones
     public static BufferedImage botonGris;
     public static BufferedImage botonRojo;
+    public static BufferedImage botonPequeRojo;
+    public static BufferedImage botonPequeGris;
 
     //jugador
     public static BufferedImage jugador;
@@ -57,6 +59,7 @@ public class Assets {
     //fuentes
     public static Font fuente;
     public static Font fuentepeque;
+    public static Font fuentetiny;
 
 
 
@@ -88,8 +91,11 @@ public class Assets {
         vidas = Loader.imageLoader("/res/otros/vidas.png");
         botonGris = Loader.imageLoader("/res/UI/grey_button00.png");
         botonRojo = Loader.imageLoader("/res/UI/red_button00.png");
+        botonPequeRojo = Loader.imageLoader("/res/UI/red_button_peque.png");
+        botonPequeGris = Loader.imageLoader("/res/UI/grey_button_peque.png");
         fuente = Loader.loadFuente("/res/Fuentes/kenvector_future.ttf" ,42);
         fuentepeque = Loader.loadFuente("/res/Fuentes/kenvector_future.ttf",22);
+        fuentetiny = Loader.loadFuente("/res/Fuentes/kenvector_future.ttf",14);
         orbe = Loader.imageLoader("/res/PowerUps/orbe.png");
         escudito = Loader.imageLoader("/res/PowerUps/scudo.png");
         money = Loader.imageLoader("/res/Money/dinieropeque.png");

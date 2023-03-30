@@ -38,4 +38,6 @@ public class Constantes {
     // Guardado de datos
     public static final String SCORE_PATH = FileSystemView.getFileSystemView().getDefaultDirectory().getPath() +
             "\\Juego de naves\\data.json";
+    public static final String CONFIG_PATH = FileSystemView.getFileSystemView().getDefaultDirectory().getPath() +
+            "\\Juego de naves\\achieve.json";
 }

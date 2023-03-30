@@ -40,6 +40,28 @@ public class JSONParser {
         return listaDatos;
     }
 
+    public static boolean leerConfiguracion(String clave) throws FileNotFoundException {
+        File file = new File(Constantes.CONFIG_PATH);
+        if(!file.exists() || file.length()==0){
+            return false; // El archivo de configuración no existe o está vacío
+        }
+        JSONTokener parser = new JSONTokener(new FileInputStream(file));
+        JSONObject json = new JSONObject(parser);
+        if(!json.has(clave)){
+            return false;
+        }
+        return json.getBoolean(clave);
+    }
+    public static void escribirConfiguracion(JSONObject obj) throws IOException {
+        File outputFile = new File(Constantes.CONFIG_PATH);
+        outputFile.getParentFile().mkdir();
+        outputFile.createNewFile();
+
+
+        BufferedWriter writer = Files.newBufferedWriter(Paths.get(outputFile.toURI()));
+        obj.write(writer);
+        writer.close();
+    }
     public static void escribirArchivo(ArrayList<DatoPuntuacion> listaDatos, int coins) throws IOException {
         File outputFile = new File(Constantes.SCORE_PATH);
 
@@ -59,6 +81,24 @@ public class JSONParser {
         jList.write(writer);
         writer.close();
     }
+    public static void restarCoinsTotal(int monedas) throws IOException {
+        ArrayList<DatoPuntuacion>listaDatos = leerArchivo();
+        int coinsTotal = 0;
+        int monedasRestantes = monedas;
+        for(DatoPuntuacion dato : listaDatos){
+            int monedasDato = dato.getCoins();
+            if(monedasDato >= monedasRestantes){
+                dato.setCoins(monedasDato-monedasRestantes);
+                monedasRestantes =0;
+                break;
+            }else{
+                dato.setCoins(0);
+                monedasRestantes -= monedasDato;
+            }
+        }
+        escribirArchivo(listaDatos,getCoinsTotal()-monedas+monedasRestantes);
+    }
+
     public static int getCoinsTotal() throws FileNotFoundException{
         int coinsTotal = 0;
         ArrayList<DatoPuntuacion> listaDatos = leerArchivo();
@@ -67,4 +107,5 @@ public class JSONParser {
         }
         return coinsTotal;
     }
+
 }

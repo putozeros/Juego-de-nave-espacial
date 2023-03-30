@@ -45,4 +45,5 @@ public class DatoPuntuacion {
     public void setCoins(int coins) {
         this.coins = coins;
     }
+
 }

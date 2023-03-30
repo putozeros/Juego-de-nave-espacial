@@ -1,26 +1,59 @@
 package gameObjects;
 
+import IO.JSONParser;
 import math.Vector2D;
+import org.json.JSONObject;
 import states.GameState;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Laser extends MovingObject{
     private int potencia;
-    public static boolean bonusactive;
+    public static boolean bonusactive,potencia1;
     private static long timer;
     private static int damagebonus;
+    private static int potencia1bonus = 0,potencia2bonus =0,potencia3bonus = 0,potencia4bonus = 0;
 
     public Laser(Vector2D posicion, Vector2D speed, double maxSpeed, double angle, BufferedImage texture, GameState gameState, int potencia) {
         super(posicion, speed, maxSpeed, texture, gameState);
         this.angle = angle;
         this.speed = speed.escalar(maxSpeed+10);
-        this.potencia = potencia;
+        this.potencia = potencia + potencia1bonus + potencia2bonus + potencia3bonus + potencia4bonus;
+        try {
+            if(JSONParser.leerConfiguracion("Potencia 1")){
+                potencia1bonus=10;
+            }
+            if(JSONParser.leerConfiguracion("Potencia 2")){
+                potencia2bonus=10;
+            }
+            if(JSONParser.leerConfiguracion("Potencia 3")){
+                potencia3bonus=20;
+            }
+            if(JSONParser.leerConfiguracion("Potencia 4")){
+                potencia4bonus=45;
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public static void setPotencia1Bonus(int potencia1Bonus) {
+        Laser.potencia1bonus = potencia1Bonus;
     }
 
+    public static void setPotencia2Bonus(int potencia2Bonus) {
+        Laser.potencia2bonus = potencia2Bonus;
+    }
+    public static void setPotencia3Bonus(int potencia3Bonus) {
+        Laser.potencia3bonus = potencia3Bonus;
+    }
+    public static void setPotencia4Bonus(int potencia4Bonus) {
+        Laser.potencia4bonus = potencia4Bonus;
+    }
     @Override
     protected void collidesWith(){
         ArrayList<MovingObject> movingObjects = gameState.getMovingObjects();

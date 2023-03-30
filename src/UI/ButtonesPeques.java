@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class Buttones {
+public class ButtonesPeques {
 
     private BufferedImage mouseOut,mouseIn;
     private boolean mouseDentro;
@@ -17,16 +17,12 @@ public class Buttones {
     private String texto;
     private Accion accion;
     private int identificador;
+    private boolean pulsado = true;
+    private boolean activo = true;
 
-    public int getIdentificador() {
-        return identificador;
-    }
 
-    public void setIdentificador(int identificador) {
-        this.identificador = identificador;
-    }
 
-    public Buttones(BufferedImage mouseOut, BufferedImage mouseIn, int x, int y,
+    public ButtonesPeques(BufferedImage mouseOut, BufferedImage mouseIn, int x, int y,
                     String texto, Accion accion, int identificador) {
         this.mouseOut = mouseOut;
         this.mouseIn = mouseIn;
@@ -36,21 +32,18 @@ public class Buttones {
         this.identificador = identificador;
     }
 
-    public void actualizar(){
+    public void actualizar() throws IOException {
         if(boundingBox.contains(MouseInput.x,MouseInput.y)){
             mouseDentro = true;
         } else {
             mouseDentro = false;
         }
-
         if(mouseDentro && MouseInput.MLB){
-            try {
-                accion.doAction();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            accion.doAction();
+            pulsado = true;
         }
     }
+
 
     public void dibujar(Graphics graphics){
 
@@ -63,7 +56,7 @@ public class Buttones {
                 new Vector2D(
                         boundingBox.getX()+ boundingBox.getWidth()/2,
                         boundingBox.getY()+ boundingBox.getHeight()),
-                true,Color.black, Assets.fuentepeque);
+                true,Color.black, Assets.fuentetiny);
     }
 
     public String getTexto() {
@@ -72,5 +65,17 @@ public class Buttones {
 
     public void setTexto(String texto) {
         this.texto = texto;
+    }
+
+    public int getIdentificador() {
+        return identificador;
+    }
+
+    public void setIdentificador(int identificador) {
+        this.identificador = identificador;
+    }
+
+    public boolean isActivo() {
+        return activo;
     }
 }

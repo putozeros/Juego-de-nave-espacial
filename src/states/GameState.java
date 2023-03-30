@@ -40,13 +40,12 @@ public class GameState extends State{
         movingObjects.add(player);
         musica = new Sonido(Assets.musica);
         musica.cambiarVolumen(-10);
-        //musica.loop();
+       // musica.loop();
         asteroides = 1;
         iniciarOleada();
         ufoSpawner = new Crono();
         ufoSpawner.run(Constantes.UFO_SPAWN_RATE);
     }
-
 
     public void addpuntuacion (int value, Vector2D posicion){
         puntuacion += value;
