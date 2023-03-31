@@ -11,18 +11,16 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class Ufo extends MovingObject{
-
+public class UfoBig extends MovingObject{
     private ArrayList<Vector2D> path;
     private Vector2D currentNode;
     private int index;
     private boolean following;
-
     private Crono fireRate;
     private int vitalidad;
     private ArrayList<Mensaje> mensajes = new ArrayList<Mensaje>();
 
-    public Ufo(Vector2D posicion, Vector2D speed, double maxSpeed, BufferedImage texture,
+    public UfoBig(Vector2D posicion, Vector2D speed, double maxSpeed, BufferedImage texture,
                ArrayList<Vector2D> path, GameState gameState, int vitalidad) {
         super(posicion, speed, maxSpeed, texture, gameState);
         this.path = path;
@@ -52,7 +50,7 @@ public class Ufo extends MovingObject{
         for(int i=0;i<movingObjects.size();i++){
             MovingObject m = movingObjects.get(i);
             if(m instanceof Player && colisionaCon(m)){
-                m.damage(10);
+                m.damage(50);
                 break;
             }
         }
@@ -84,7 +82,7 @@ public class Ufo extends MovingObject{
         posicion = posicion.add(speed);
 
         if(posicion.getX() <-30 || posicion.getX() >Constantes.WIDTH+30 ||
-                posicion.getY() < -100 || posicion.getY() > Constantes.HEIGHT+30){
+                posicion.getY() < -100 || posicion.getY() > Constantes.HEIGHT+30) {
             Destruir();
         }
 
@@ -103,19 +101,19 @@ public class Ufo extends MovingObject{
 
             toPlayer = toPlayer.setDireccion(currentAngle);
 
-            Laser laser = new Laser(
+            LaserEnemy laserEnemy = new LaserEnemy(
                     getCenter().add(toPlayer.escalar(ancho)),
                     toPlayer,
                     Constantes.LASER_SPEED/10,
                     currentAngle + Math.PI/2,
-                    Assets.lrojo,
-                    gameState,5
+                    Assets.lverde,
+                    gameState,200
             );
 
-            gameState.getMovingObjects().add(0,laser);
+            gameState.getMovingObjects().add(0,laserEnemy);
             Sonido sonido = new Sonido(Assets.disparoAlien);
             sonido.play();
-            fireRate.run(Constantes.UFO_FIRERATE);
+            fireRate.run(Constantes.UFOBIG_FIRERATE);
         }
 
         angle +=0.05;
@@ -124,7 +122,7 @@ public class Ufo extends MovingObject{
     }
 
     public void damage(int danio){
-        mensajes.add(new Mensaje(posicion,true,""+danio,Color.yellow,false,Assets.fuentepeque));
+        mensajes.add(new Mensaje(posicion,true,""+danio, Color.yellow,false,Assets.fuentepeque));
         Sonido hit = new Sonido(Assets.hit);
         hit.play();
         vitalidad -= danio;
@@ -137,12 +135,12 @@ public class Ufo extends MovingObject{
     @Override
     public void Destruir(){
         gameState.playExplosion(new Vector2D(this.getCenter()));
-        gameState.addpuntuacion(Constantes.UFO_SCORE, posicion);
+        gameState.addpuntuacion(Constantes.UFOBIG_SCORE, posicion);
         Sonido sonido = new Sonido(Assets.explosion);
         sonido.play();
-        Accion accionMoneda = () -> gameState.addMoney(1,this.getPosicion());
-        MonedaPowerUps moneda = new MonedaPowerUps(new Vector2D(this.getCenter()),Assets.coin,accionMoneda,gameState);
-        gameState.getMovingObjects().add(moneda);
+        Accion accionMoneda10 = () -> gameState.addMoney(10,this.getPosicion());
+        MonedaBigPowerUps moneda10 = new MonedaBigPowerUps(new Vector2D(this.getCenter()),Assets.coin10,accionMoneda10,gameState);
+        gameState.getMovingObjects().add(moneda10);
         super.Destruir();
     }
 
@@ -161,3 +159,4 @@ public class Ufo extends MovingObject{
         g2d.drawImage(texture,at,null);
     }
 }
+

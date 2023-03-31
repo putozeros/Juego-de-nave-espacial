@@ -18,14 +18,6 @@ public class Buttones {
     private Accion accion;
     private int identificador;
 
-    public int getIdentificador() {
-        return identificador;
-    }
-
-    public void setIdentificador(int identificador) {
-        this.identificador = identificador;
-    }
-
     public Buttones(BufferedImage mouseOut, BufferedImage mouseIn, int x, int y,
                     String texto, Accion accion, int identificador) {
         this.mouseOut = mouseOut;
@@ -69,8 +61,13 @@ public class Buttones {
     public String getTexto() {
         return texto;
     }
-
     public void setTexto(String texto) {
         this.texto = texto;
+    }
+    public int getIdentificador() {
+        return identificador;
+    }
+    public void setIdentificador(int identificador) {
+        this.identificador = identificador;
     }
 }

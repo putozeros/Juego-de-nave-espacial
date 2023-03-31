@@ -15,21 +15,21 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class EstadoTienda extends State{
+public class EstadoTienda extends State {
     private boolean objetoComprado = false;
     private boolean potencia1Presionado = false;
     private boolean potencia2Presionado = false;
     private boolean potencia3Presionado = false;
     private boolean potencia4Presionado = false;
     private ArrayList<Buttones> boton;
-    private ArrayList<ButtonesPeques>botoncillo;
+    private ArrayList<ButtonesPeques> botoncillo;
     private boolean potencia1Activada = false;
     private boolean potencia2Activada = false;
     private boolean potencia3Activada = false;
     private boolean potencia4Activada = false;
-    private HashMap<String, Boolean>potenciaActivada;
+    private HashMap<String, Boolean> potenciaActivada;
 
-    public EstadoTienda(){
+    public EstadoTienda() {
         boton = new ArrayList<>();
         botoncillo = new ArrayList<>();
         potenciaActivada = new HashMap<>();
@@ -48,96 +48,99 @@ public class EstadoTienda extends State{
         botoncillo.add(new ButtonesPeques(
                 Assets.botonPequeGris,
                 Assets.botonPequeRojo,
-                200,200,
-                "Potencia 1",
-                    () -> {
-                    if(JSONParser.getCoinsTotal()>=20) {
+                200, 200,
+                "20",
+                () -> {
+                    if (JSONParser.getCoinsTotal() >= 20) {
                         actualizarBonus("Potencia 1");
                         JSONParser.restarCoinsTotal(20);
                         potencia1Presionado = true;
                     }
-                    },
+                },
                 25));
         try {
-            if(JSONParser.leerConfiguracion("Potencia 1")){
+            if (JSONParser.leerConfiguracion("Potencia 1")) {
                 botoncillo.add(new ButtonesPeques(
-                    Assets.botonPequeGris,
-                    Assets.botonPequeRojo,
-                    200,250,
-                    "Potencia 2",
-                    () -> {
-                        if (JSONParser.getCoinsTotal() >= 200) {
-                            actualizarBonus("Potencia 2");
-                            JSONParser.restarCoinsTotal(200);
-                            potencia2Presionado = true;
-                        }
+                        Assets.botonPequeGris,
+                        Assets.botonPequeRojo,
+                        200, 250,
+                        "200",
+                        () -> {
+                            if (JSONParser.getCoinsTotal() >= 200) {
+                                actualizarBonus("Potencia 2");
+                                JSONParser.restarCoinsTotal(200);
+                                potencia2Presionado = true;
+                            }
                         },
-                    26));}
+                        26));
+            }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
         try {
-            if(JSONParser.leerConfiguracion("Potencia 1") && JSONParser.leerConfiguracion("Potencia 2")){
-            botoncillo.add(new ButtonesPeques(
-                    Assets.botonPequeGris,
-                    Assets.botonPequeRojo,
-                    200,300,
-                    "Potencia 3",
-                    () ->{
-                        if(JSONParser.getCoinsTotal()>=2000) {
-                            actualizarBonus("Potencia 3");
-                            JSONParser.restarCoinsTotal(2000);
-                            potencia3Presionado = true;
-                        }
-                    },
-                    27));}
+            if (JSONParser.leerConfiguracion("Potencia 1") && JSONParser.leerConfiguracion("Potencia 2")) {
+                botoncillo.add(new ButtonesPeques(
+                        Assets.botonPequeGris,
+                        Assets.botonPequeRojo,
+                        200, 300,
+                        "2000",
+                        () -> {
+                            if (JSONParser.getCoinsTotal() >= 2000) {
+                                actualizarBonus("Potencia 3");
+                                JSONParser.restarCoinsTotal(2000);
+                                potencia3Presionado = true;
+                            }
+                        },
+                        27));
+            }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
         try {
-            if(JSONParser.leerConfiguracion("Potencia 1") && JSONParser.leerConfiguracion("Potencia 2")
-                    && JSONParser.leerConfiguracion("Potencia 3")){
-            botoncillo.add(new ButtonesPeques(
-                    Assets.botonPequeGris,
-                    Assets.botonPequeRojo,
-                    200,350,
-                    "Potencia 4",
-                    () ->{
-                        if(JSONParser.getCoinsTotal()>=20000) {
-                            actualizarBonus("Potencia 4");
-                            JSONParser.restarCoinsTotal(20000);
-                            potencia4Presionado = true;
-                        }
-                    },
-                    28));}
+            if (JSONParser.leerConfiguracion("Potencia 1") && JSONParser.leerConfiguracion("Potencia 2")
+                    && JSONParser.leerConfiguracion("Potencia 3")) {
+                botoncillo.add(new ButtonesPeques(
+                        Assets.botonPequeGris,
+                        Assets.botonPequeRojo,
+                        200, 350,
+                        "20000",
+                        () -> {
+                            if (JSONParser.getCoinsTotal() >= 20000) {
+                                actualizarBonus("Potencia 4");
+                                JSONParser.restarCoinsTotal(20000);
+                                potencia4Presionado = true;
+                            }
+                        },
+                        28));
+            }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
 
-        try{
+        try {
             potencia1Activada = JSONParser.leerConfiguracion("Potencia 1");
             potencia2Activada = JSONParser.leerConfiguracion("Potencia 2");
             potencia3Activada = JSONParser.leerConfiguracion("Potencia 3");
             potencia4Activada = JSONParser.leerConfiguracion("Potencia 4");
 
-            potenciaActivada.put("Potencia 1",potencia1Activada);
-            potenciaActivada.put("Potencia 2",potencia2Activada);
-            potenciaActivada.put("Potencia 3",potencia3Activada);
-            potenciaActivada.put("Potencia 4",potencia4Activada);
+            potenciaActivada.put("Potencia 1", potencia1Activada);
+            potenciaActivada.put("Potencia 2", potencia2Activada);
+            potenciaActivada.put("Potencia 3", potencia3Activada);
+            potenciaActivada.put("Potencia 4", potencia4Activada);
 
-            if(potencia1Activada){
-                botoncillo.removeIf(b -> b.getTexto().equals("Potencia 1"));
+            if (potencia1Activada) {
+                botoncillo.removeIf(b -> b.getTexto().equals("20"));
             }
-            if(potencia2Activada){
-                botoncillo.removeIf(b -> b.getTexto().equals("Potencia 2"));
+            if (potencia2Activada) {
+                botoncillo.removeIf(b -> b.getTexto().equals("200"));
             }
-            if(potencia3Activada){
-                botoncillo.removeIf(b -> b.getTexto().equals("Potencia 3"));
+            if (potencia3Activada) {
+                botoncillo.removeIf(b -> b.getTexto().equals("2000"));
             }
-            if(potencia4Activada){
-                botoncillo.removeIf(b -> b.getTexto().equals("Potencia 4"));
+            if (potencia4Activada) {
+                botoncillo.removeIf(b -> b.getTexto().equals("20000"));
             }
-        }catch(FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -147,37 +150,37 @@ public class EstadoTienda extends State{
             case "Potencia 1":
                 if (!potencia1Presionado && !potencia1Activada) {
                     Laser.setPotencia1Bonus(10);
-                    potenciaActivada.put(boton,true);
-                    potencia1Activada=true;
+                    potenciaActivada.put(boton, true);
+                    potencia1Activada = true;
                     guardarConfiguracion();
-                    botoncillo.removeIf(b -> b.getTexto().equals(boton));
+                    botoncillo.removeIf(b -> b.getTexto().equals("20"));
                 }
                 break;
             case "Potencia 2":
                 if (!potencia2Presionado && !potencia2Activada) {
                     Laser.setPotencia2Bonus(10);
-                    potenciaActivada.put(boton,true);
-                    potencia2Activada=true;
+                    potenciaActivada.put(boton, true);
+                    potencia2Activada = true;
                     guardarConfiguracion();
-                    botoncillo.removeIf(b -> b.getTexto().equals(boton));
+                    botoncillo.removeIf(b -> b.getTexto().equals("200"));
                 }
                 break;
             case "Potencia 3":
                 if (!potencia3Presionado && !potencia3Activada) {
                     Laser.setPotencia3Bonus(20);
-                    potenciaActivada.put(boton,true);
-                    potencia3Activada=true;
+                    potenciaActivada.put(boton, true);
+                    potencia3Activada = true;
                     guardarConfiguracion();
-                    botoncillo.removeIf(b -> b.getTexto().equals(boton));
+                    botoncillo.removeIf(b -> b.getTexto().equals("2000"));
                 }
                 break;
             case "Potencia 4":
                 if (!potencia4Presionado && !potencia4Activada) {
                     Laser.setPotencia4Bonus(45);
-                    potenciaActivada.put(boton,true);
-                    potencia4Activada=true;
+                    potenciaActivada.put(boton, true);
+                    potencia4Activada = true;
                     guardarConfiguracion();
-                    botoncillo.removeIf(b -> b.getTexto().equals(boton));
+                    botoncillo.removeIf(b -> b.getTexto().equals("20000"));
                 }
                 break;
             default:
@@ -188,15 +191,16 @@ public class EstadoTienda extends State{
     private void guardarConfiguracion() {
         try {
             JSONObject obj = new JSONObject();
-            obj.put("Potencia 1",potenciaActivada.get("Potencia 1"));
-            obj.put("Potencia 2",potenciaActivada.get("Potencia 2"));
-            obj.put("Potencia 3",potenciaActivada.get("Potencia 3"));
-            obj.put("Potencia 4",potenciaActivada.get("Potencia 4"));
+            obj.put("Potencia 1", potenciaActivada.get("Potencia 1"));
+            obj.put("Potencia 2", potenciaActivada.get("Potencia 2"));
+            obj.put("Potencia 3", potenciaActivada.get("Potencia 3"));
+            obj.put("Potencia 4", potenciaActivada.get("Potencia 4"));
             JSONParser.escribirConfiguracion(obj);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
     @Override
     public void updatear(float dt) {
@@ -224,18 +228,22 @@ public class EstadoTienda extends State{
         }
         try {
             Text.drawText(g,"= "+ JSONParser.getCoinsTotal(),new Vector2D(535,95),false,Color.yellow,Assets.fuente);
+            Text.drawText(g,"POWER 1",new Vector2D(220,195),false,Color.yellow,Assets.fuentetiny);
+            Text.drawText(g,"POWER 2",new Vector2D(220,245),false,Color.yellow,Assets.fuentetiny);
+            Text.drawText(g,"POWER 3",new Vector2D(220,295),false,Color.yellow,Assets.fuentetiny);
+            Text.drawText(g,"POWER 4",new Vector2D(220,345),false,Color.yellow,Assets.fuentetiny);
             g.drawImage(Assets.pilamonedas,450,50,null);
             if(potencia1Activada){
-                Text.drawText(g,"SOLD",new Vector2D(200,200),false,Color.red,Assets.fuentetiny);
+                Text.drawText(g,"SOLD",new Vector2D(200,210),false,Color.red,Assets.fuentetiny);
             }
             if(potencia2Activada){
-                Text.drawText(g,"SOLD",new Vector2D(200,250),false,Color.red,Assets.fuentetiny);
+                Text.drawText(g,"SOLD",new Vector2D(200,260),false,Color.red,Assets.fuentetiny);
             }
             if(potencia3Activada){
-                Text.drawText(g,"SOLD",new Vector2D(200,300),false,Color.red,Assets.fuentetiny);
+                Text.drawText(g,"SOLD",new Vector2D(200,310),false,Color.red,Assets.fuentetiny);
             }
             if(potencia4Activada){
-                Text.drawText(g,"SOLD",new Vector2D(200,350),false,Color.red,Assets.fuentetiny);
+                Text.drawText(g,"SOLD",new Vector2D(200,360),false,Color.red,Assets.fuentetiny);
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);

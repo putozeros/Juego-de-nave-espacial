@@ -23,6 +23,7 @@ public class Assets {
 
     //Alien
     public static BufferedImage ufo;
+    public static BufferedImage ufoBig;
 
     // efectos
     public static BufferedImage velocidad;
@@ -35,6 +36,7 @@ public class Assets {
     public static BufferedImage vidas;
     public static BufferedImage money;
     public static BufferedImage coin;
+    public static BufferedImage coin10;
     public static BufferedImage pilamonedas;
 
     // explosiones
@@ -100,8 +102,10 @@ public class Assets {
         escudito = Loader.imageLoader("/res/PowerUps/scudo.png");
         money = Loader.imageLoader("/res/Money/dinieropeque.png");
         coin = Loader.imageLoader("/res/Money/coin.png");
+        coin10= Loader.imageLoader("/res/Money/coin10.png");
         pilamonedas = Loader.imageLoader("/res/Money/pilamonedas.png");
         putensia = Loader.imageLoader("/res/PowerUps/power.png");
+        ufoBig = Loader.imageLoader("/res/ships/ufoBig.png");
 
         musica = Loader.loadSonido("/res/Sonidos/musica.wav");
         explosion = Loader.loadSonido("/res/Sonidos/explosion.wav");

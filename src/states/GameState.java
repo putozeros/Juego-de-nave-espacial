@@ -16,57 +16,62 @@ import java.util.ArrayList;
 import gameObjects.Laser;
 
 
-public class GameState extends State{
-    public static final Vector2D PLAYER_START_POSITION = new Vector2D(Constantes.WIDTH/2 - Assets.jugador.getWidth()/2,
-            Constantes.HEIGHT/2 - Assets.jugador.getHeight()/2);
+public class GameState extends State {
+    public static final Vector2D PLAYER_START_POSITION = new Vector2D(Constantes.WIDTH / 2 - Assets.jugador.getWidth() / 2,
+            Constantes.HEIGHT / 2 - Assets.jugador.getHeight() / 2);
 
     private Player player;
-    private Laser laser;
     private ArrayList<MovingObject> movingObjects = new ArrayList<MovingObject>();
     private ArrayList<Animacion> explosiones = new ArrayList<Animacion>();
     private ArrayList<Mensaje> mensajes = new ArrayList<Mensaje>();
     private int puntuacion = 0;
     private int vidas = 1;
-    private int money = 0;
+    private int money = 5000;
     private int asteroides;
     private int waves = 1;
     private boolean gameOver;
     private Sonido musica;
-    private Crono timerGameOver,ufoSpawner;
-    public GameState(){
-        player=new Player(PLAYER_START_POSITION, new Vector2D(),6 , Assets.jugador,this,2400);
+    private Crono timerGameOver, ufoSpawner, ufoBigSpawner;
+
+    public GameState() {
+        player = new Player(PLAYER_START_POSITION, new Vector2D(), 6, Assets.jugador, this, 2400);
         timerGameOver = new Crono();
         gameOver = false;
         movingObjects.add(player);
         musica = new Sonido(Assets.musica);
         musica.cambiarVolumen(-10);
-       // musica.loop();
+        // musica.loop();
         asteroides = 1;
         iniciarOleada();
         ufoSpawner = new Crono();
         ufoSpawner.run(Constantes.UFO_SPAWN_RATE);
+        ufoBigSpawner = new Crono();
+        ufoBigSpawner.run(Constantes.UFOBIG_SPAWN_RATE);
     }
 
-    public void addpuntuacion (int value, Vector2D posicion){
+    public void addpuntuacion(int value, Vector2D posicion) {
         puntuacion += value;
-        if(puntuacion % 100 == 0){
+        if (puntuacion % 100 == 0) {
             spawnerPowerUp();
         }
     }
 
-    public void addMoney (int value, Vector2D posicion){
+    public void addMoney(int value, Vector2D posicion) {
         money += value;
-        mensajes.add(new Mensaje(posicion,true,"+"+value+" coin",Color.yellow,false,Assets.fuentepeque));
+        mensajes.add(new Mensaje(posicion, true, "+" + value + " coin", Color.yellow, false, Assets.fuentepeque));
+        if(money >1){
+            mensajes.add(new Mensaje(posicion,true,"+"+value+" coins",Color.orange,false,Assets.fuentepeque));
+        }
     }
 
-    public void dividirAsteroide(Asteroide asteroide){
+    public void dividirAsteroide(Asteroide asteroide) {
         Size size = asteroide.getSize();
 
         BufferedImage[] texturas = size.texturas;
 
         Size newSize = null;
 
-        switch (size){
+        switch (size) {
             case BIG:
                 newSize = Size.MED;
                 break;
@@ -79,12 +84,12 @@ public class GameState extends State{
             default:
                 return;
         }
-        for (int i = 0; i < size.cantidad;i++){
+        for (int i = 0; i < size.cantidad; i++) {
             movingObjects.add(new Asteroide(
                     asteroide.getPosicion(),
-                    new Vector2D(0,1).setDireccion(Math.random()*Math.PI*2),
-                    Constantes.asteroidSpeed*Math.random() +1,
-                    texturas[(int)(Math.random()*texturas.length)],
+                    new Vector2D(0, 1).setDireccion(Math.random() * Math.PI * 2),
+                    Constantes.asteroidSpeed * Math.random() + 1,
+                    texturas[(int) (Math.random() * texturas.length)],
                     this,
                     newSize,
                     6
@@ -93,22 +98,21 @@ public class GameState extends State{
     }
 
 
+    private void iniciarOleada() {
+        mensajes.add(new Mensaje(new Vector2D(Constantes.WIDTH / 2, Constantes.HEIGHT / 2), true, "Oleada " + waves,
+                Color.WHITE, true, Assets.fuente));
 
-    private void iniciarOleada(){
-        mensajes.add(new Mensaje(new Vector2D(Constantes.WIDTH/2,Constantes.HEIGHT/2),true,"Oleada "+waves,
-                Color.WHITE,true, Assets.fuente));
+        double x, y;
+        for (int i = 0; i < asteroides; i++) {
+            x = 1 % 2 == 0 ? Math.random() * Constantes.WIDTH : 0;
+            y = 1 % 2 == 0 ? 0 : Math.random() * Constantes.HEIGHT;
 
-        double x,y;
-        for(int i = 0; i < asteroides;i++){
-            x= 1 % 2 == 0 ? Math.random()* Constantes.WIDTH : 0;
-            y= 1 % 2 == 0 ? 0 : Math.random()* Constantes.HEIGHT;
-
-            BufferedImage texturas = Assets.grandes[(int)(Math.random()*Assets.grandes.length)];
+            BufferedImage texturas = Assets.grandes[(int) (Math.random() * Assets.grandes.length)];
 
             movingObjects.add(new Asteroide(
-                    new Vector2D(x,y),
-                    new Vector2D(0,1).setDireccion(Math.random()*Math.PI*2),
-                    Constantes.asteroidSpeed*Math.random() +1,
+                    new Vector2D(x, y),
+                    new Vector2D(0, 1).setDireccion(Math.random() * Math.PI * 2),
+                    Constantes.asteroidSpeed * Math.random() + 1,
                     texturas,
                     this,
                     Size.BIG,
@@ -159,6 +163,46 @@ public class GameState extends State{
                 path,
                 this,
                 50
+        ));
+    }
+    private void spawnUfoBig(){
+        int rand = (int)(Math.random()*2);
+
+        double x = rand == 0 ? (Math.random()*Constantes.WIDTH) : 0;
+        double y = rand == 0 ? 0 : (Math.random()*Constantes.HEIGHT);
+
+        ArrayList<Vector2D> path = new ArrayList<Vector2D>();
+
+        double posX, posY;
+
+        posX = Math.random()*Constantes.WIDTH/2;
+        posY = Math.random()*Constantes.HEIGHT/2;
+        path.add(new Vector2D(posX,posY));
+
+        posX = Math.random()*Constantes.WIDTH/2 + Constantes.WIDTH/2;
+        posY = Math.random()*Constantes.HEIGHT/2;
+        path.add(new Vector2D(posX,posY));
+
+        posX = Math.random()*Constantes.WIDTH/2;
+        posY = Math.random()*Constantes.HEIGHT/2 + Constantes.HEIGHT/2;
+        path.add(new Vector2D(posX,posY));
+
+        posX = Math.random()*Constantes.WIDTH/2 + Constantes.WIDTH/2;
+        posY = Math.random()*Constantes.HEIGHT/2 + Constantes.HEIGHT/2;
+        path.add(new Vector2D(posX,posY));
+
+        posX = Math.random()*Constantes.WIDTH/2 + Constantes.WIDTH/3;
+        posY = Math.random()*Constantes.HEIGHT/2 + Constantes.HEIGHT;
+        path.add(new Vector2D(posX,posY));
+
+        movingObjects.add(new UfoBig(
+                new Vector2D(x,y),
+                new Vector2D(),
+                Constantes.UFO_MAX_SPEED/2,
+                Assets.ufoBig,
+                path,
+                this,
+                500
         ));
     }
     private void spawnerPowerUp(){
@@ -247,9 +291,14 @@ public class GameState extends State{
             ufoSpawner.run(Constantes.UFO_SPAWN_RATE);
             spawnUfo();
         }
+        if(!ufoBigSpawner.isRunning()){
+            ufoBigSpawner.run(Constantes.UFOBIG_SPAWN_RATE);
+            spawnUfoBig();
+        }
 
         timerGameOver.actualizar();
         ufoSpawner.actualizar();
+        ufoBigSpawner.actualizar();
 
         for(int i = 0;i<movingObjects.size();i++){
             if(movingObjects.get(i) instanceof Asteroide){

@@ -31,13 +31,15 @@ public class Constantes {
     public static long UFO_FIRERATE = 600;
     public static double UFO_ANGLE_RANGE = Math.PI/2;
     public static final int UFO_SCORE = 25;
-
     public static final int UFO_SPAWN_RATE = 10000;
+    public static long UFOBIG_FIRERATE = 500;
+    public static final int UFOBIG_SCORE = 250;
+    public static final int UFOBIG_SPAWN_RATE = 60000;
 
 
     // Guardado de datos
     public static final String SCORE_PATH = FileSystemView.getFileSystemView().getDefaultDirectory().getPath() +
             "\\Juego de naves\\data.json";
     public static final String CONFIG_PATH = FileSystemView.getFileSystemView().getDefaultDirectory().getPath() +
-            "\\Juego de naves\\achieve.json";
+            "\\Juego de naves\\pups.json";
 }

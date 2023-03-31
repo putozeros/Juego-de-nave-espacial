@@ -96,6 +96,10 @@ public abstract class MovingObject extends GameObject{
             ((MonedaPowerUps)a).hacerAccion();
             a.Destruir();
         }
+        if(b instanceof Player && a instanceof MonedaBigPowerUps){
+            ((MonedaBigPowerUps)a).hacerAccion();
+            a.Destruir();
+        }
 
         if (a instanceof Player && b instanceof PowerUps) {
                 ((PowerUps)b).ejecutarAccion();

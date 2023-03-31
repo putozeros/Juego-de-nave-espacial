@@ -2,19 +2,17 @@ package gameObjects;
 
 import IO.JSONParser;
 import math.Vector2D;
-import org.json.JSONObject;
 import states.GameState;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Laser extends MovingObject{
     private int potencia;
-    public static boolean bonusactive,potencia1;
+    public static boolean bonusactive;
     private static long timer;
     private static int damagebonus;
     private static int potencia1bonus = 0,potencia2bonus =0,potencia3bonus = 0,potencia4bonus = 0;
@@ -44,7 +42,6 @@ public class Laser extends MovingObject{
     public static void setPotencia1Bonus(int potencia1Bonus) {
         Laser.potencia1bonus = potencia1Bonus;
     }
-
     public static void setPotencia2Bonus(int potencia2Bonus) {
         Laser.potencia2bonus = potencia2Bonus;
     }
@@ -75,12 +72,17 @@ public class Laser extends MovingObject{
                 Destruir();
                 break;
             }
-            if(m instanceof Player && colisionaCon(m)){
+            if(m instanceof UfoBig && colisionaCon(m)){
                 if(!bonusactive){
                     m.damage(potencia);
                 }else{
-                    m.damage(potencia + damagebonus);
+                    m.damage(potencia+damagebonus);
                 }
+                Destruir();
+                break;
+            }
+            if(m instanceof Player && colisionaCon(m)){
+                m.damage(25);
                 Destruir();
                 break;
             }
