@@ -11,12 +11,12 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class LaserEnemy extends MovingObject {
+public class LaserLimpiador extends MovingObject {
     private int potencia;
     public static boolean bonusactive;
     private static long timer;
 
-    public LaserEnemy(Vector2D posicion, Vector2D speed, double maxSpeed, double angle, BufferedImage texture, GameState gameState, int potencia) {
+    public LaserLimpiador(Vector2D posicion, Vector2D speed, double maxSpeed, double angle, BufferedImage texture, GameState gameState, int potencia) {
         super(posicion, speed, maxSpeed, texture, gameState);
         this.angle = angle;
         this.speed = speed.escalar(maxSpeed + 10);
@@ -47,13 +47,18 @@ public class LaserEnemy extends MovingObject {
                 break;
             }
             if (m instanceof Player && colisionaCon(m)) {
-                m.damage(2);
+                m.damage(50);
                 Destruir();
                 break;
             }
         }
     }
-
+    public void Destruir(){
+        gameState.playExplosion(new Vector2D(this.getCenter()));
+        Sonido sonido = new Sonido(Assets.explosion);
+        sonido.play();
+        super.Destruir();
+    }
     public boolean colisionaCon(MovingObject m) {
         double distancia = m.getCenter().substract(getCenter()).getMagnitud();
         return distancia < m.ancho / 2 + ancho / 2;

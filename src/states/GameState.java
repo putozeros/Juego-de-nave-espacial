@@ -13,7 +13,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
-import gameObjects.Laser;
 
 
 public class GameState extends State {
@@ -24,14 +23,11 @@ public class GameState extends State {
     private ArrayList<MovingObject> movingObjects = new ArrayList<MovingObject>();
     private ArrayList<Animacion> explosiones = new ArrayList<Animacion>();
     private ArrayList<Mensaje> mensajes = new ArrayList<Mensaje>();
-    private int puntuacion = 0;
-    private int vidas = 1;
-    private int money = 5000;
-    private int asteroides;
-    private int waves = 1;
+    private int puntuacion = 0, vidas = 1, money = 0, asteroides, waves = 1, maxUfo = 2, maxUfoBig = 1,
+            ufoCounter=0, ufoBigCounter=0;
     private boolean gameOver;
     private Sonido musica;
-    private Crono timerGameOver, ufoSpawner, ufoBigSpawner;
+    private Crono timerGameOver, ufoSpawner, ufoBigSpawner,limpiadorSpawner;
 
     public GameState() {
         player = new Player(PLAYER_START_POSITION, new Vector2D(), 6, Assets.jugador, this, 2400);
@@ -47,6 +43,8 @@ public class GameState extends State {
         ufoSpawner.run(Constantes.UFO_SPAWN_RATE);
         ufoBigSpawner = new Crono();
         ufoBigSpawner.run(Constantes.UFOBIG_SPAWN_RATE);
+        limpiadorSpawner = new Crono();
+        limpiadorSpawner.run(Constantes.LIMPIADOR_SPAWNRATE);
     }
 
     public void addpuntuacion(int value, Vector2D posicion) {
@@ -205,6 +203,31 @@ public class GameState extends State {
                 500
         ));
     }
+    private void spawnLimpiador(){
+        int rand = (int)(Math.random()*2);
+
+        double x = rand == 0 ? (Math.random()*Constantes.WIDTH) : 0;
+        double y = rand == 0 ? 0 : (Math.random()*Constantes.HEIGHT);
+
+        ArrayList<Vector2D> path = new ArrayList<Vector2D>();
+
+        double posX, posY;
+
+        posX = Math.random()*Constantes.WIDTH/2;
+        posY = Math.random()*Constantes.HEIGHT/2;
+        path.add(new Vector2D(posX,posY));
+
+
+        movingObjects.add(new Limpiador(
+                new Vector2D(x,y),
+                new Vector2D(),
+                Constantes.LIMPIADOR_SPEED,
+                Assets.limpiador,
+                path,
+                this,
+                5
+        ));
+    }
     private void spawnerPowerUp(){
         final int x = (int) ((Constantes.WIDTH - Assets.orbe.getWidth())*Math.random());
         final int y = (int) ((Constantes.HEIGHT - Assets.orbe.getHeight())*Math.random());
@@ -286,22 +309,43 @@ public class GameState extends State {
             }
             State.cambiarEstado(new EstadoMenu());
         }
-
-        if(!ufoSpawner.isRunning()){
-            ufoSpawner.run(Constantes.UFO_SPAWN_RATE);
-            spawnUfo();
+        if(waves == 2 && ufoCounter != maxUfo){
+            if(!ufoSpawner.isRunning()){
+                ufoSpawner.run(Constantes.UFO_SPAWN_RATE);
+                spawnUfo();
+                ufoCounter++;
+            }
+        }else if(waves >= 3){
+            if(!ufoSpawner.isRunning()){
+                ufoSpawner.run(Constantes.UFO_SPAWN_RATE);
+                spawnUfo();
+            }
         }
-        if(!ufoBigSpawner.isRunning()){
-            ufoBigSpawner.run(Constantes.UFOBIG_SPAWN_RATE);
-            spawnUfoBig();
+        if(waves == 2 && ufoBigCounter != maxUfoBig){
+            if(!ufoBigSpawner.isRunning()){
+                ufoSpawner.run(Constantes.UFOBIG_SPAWN_RATE);
+                spawnUfoBig();
+                ufoBigCounter++;
+            }
+        }else if(waves >= 3){
+            if(!ufoBigSpawner.isRunning()){
+                ufoBigSpawner.run(Constantes.UFOBIG_SPAWN_RATE);
+                spawnUfoBig();
+            }
+        }
+
+        if(!limpiadorSpawner.isRunning()){
+            limpiadorSpawner.run(Constantes.LIMPIADOR_SPAWNRATE);
+            spawnLimpiador();
         }
 
         timerGameOver.actualizar();
         ufoSpawner.actualizar();
         ufoBigSpawner.actualizar();
+        limpiadorSpawner.actualizar();
 
-        for(int i = 0;i<movingObjects.size();i++){
-            if(movingObjects.get(i) instanceof Asteroide){
+        for(int i = 0;i<movingObjects.size();i++) {
+            if (movingObjects.get(i) instanceof Asteroide) {
                 return;
             }
         }

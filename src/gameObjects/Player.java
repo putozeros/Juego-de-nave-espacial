@@ -4,6 +4,7 @@ import graficos.Animacion;
 import graficos.Assets;
 import graficos.Sonido;
 import input.Keyboard;
+import input.XBOXController;
 import math.Vector2D;
 import states.GameState;
 
@@ -23,7 +24,8 @@ public class Player extends MovingObject{
     private boolean spawning=true, visible, shieldOn, shotAllowed, accelerating=false;
     private int contador = 0,vitalidad;
     private Timer temporizador;
-    private Animacion shieldEffect;
+    private Animacion shieldEffect,fuego;
+
 
     public Player(Vector2D posicion, Vector2D speed,double maxSpeed, BufferedImage texture, GameState gameState,int vitalidad) {
         super(posicion, speed, maxSpeed, texture, gameState);
@@ -42,6 +44,7 @@ public class Player extends MovingObject{
         });
         temporizador.start();
         shieldEffect = new Animacion(Assets.escudo,60,null);
+        fuego = new Animacion(Assets.fuego,60,null);
         shotAllowed = true;
     }
 
@@ -66,11 +69,28 @@ public class Player extends MovingObject{
             }
         }
 
+        //actualizador de controles
+        XBOXController mando = new XBOXController();
         if(shotAllowed){
             if(Keyboard.DISPARO && !fireRate.isRunning() && !spawning){
                 gameState.getMovingObjects().add(new Laser(getCenter().add(heading.escalar(ancho-30)), heading,
                         Constantes.LASER_SPEED, angle, Assets.lazul, gameState,5));
-                fireRate.run(Constantes.FIRERATE);
+                fireRate.run(100);
+                Sonido sonido = new Sonido(Assets.disparoJugador);
+                sonido.cambiarVolumen(-13);
+                sonido.play();
+                actualizarContador();
+
+                if(contador >=10){
+                    Sonido overheat = new Sonido(Assets.overheat);
+                    overheat.play();
+                    shotAllowed=false;
+                }
+            }
+            if(mando.isBotonR1Pulsado() && !fireRate.isRunning() && !spawning){
+                gameState.getMovingObjects().add(new Laser(getCenter().add(heading.escalar(ancho-30)), heading,
+                        Constantes.LASER_SPEED, angle, Assets.lazul, gameState,5));
+                fireRate.run(100);
                 Sonido sonido = new Sonido(Assets.disparoJugador);
                 sonido.cambiarVolumen(-13);
                 sonido.play();
@@ -86,13 +106,13 @@ public class Player extends MovingObject{
         if (contador ==0){
             shotAllowed=true;
         }
-        if(Keyboard.DERECHA){
+        if(Keyboard.DERECHA || mando.isStickDerecha()){
             angle += Constantes.DELTAANGLE;
         }
-        if(Keyboard.IZQUIERDA){
+        if(Keyboard.IZQUIERDA || mando.isStickIzquierda()){
             angle -= Constantes.DELTAANGLE;
         }
-        if(Keyboard.ARRIBA){
+        if(Keyboard.ARRIBA || mando.isBotonAPulsado()){
             aceleracion = heading.escalar(Constantes.ACC);
             accelerating = true;
         } else{
@@ -128,6 +148,7 @@ public class Player extends MovingObject{
         fireRate.actualizar();
         spawntime.actualizar();
         flickering.actualizar();
+        fuego.actualizar(dt);
         collidesWith();
 
     }
@@ -208,8 +229,8 @@ public class Player extends MovingObject{
 
 
         if(accelerating){
-            g2d.drawImage(Assets.velocidad,at1,null);
-            g2d.drawImage(Assets.velocidad,at2,null);
+            g2d.drawImage(fuego.getCurrentFrame(),at1,null);
+            g2d.drawImage(fuego.getCurrentFrame(),at2,null);
         }
         if(shieldOn){
             BufferedImage currentFrame = shieldEffect.getCurrentFrame();

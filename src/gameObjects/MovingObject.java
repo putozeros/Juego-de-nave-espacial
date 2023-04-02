@@ -1,14 +1,11 @@
 package gameObjects;
 
-import graficos.Assets;
 import math.Vector2D;
 import states.GameState;
 
-import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import gameObjects.Mensaje;
 
 public abstract class MovingObject extends GameObject{
 

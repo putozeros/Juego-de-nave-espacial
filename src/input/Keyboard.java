@@ -21,11 +21,12 @@ public class Keyboard implements KeyListener {
         IZQUIERDA = keys[KeyEvent.VK_A];
         DERECHA = keys[KeyEvent.VK_D];
         DISPARO = keys[KeyEvent.VK_SPACE];
+
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-            keys[e.getKeyCode()] = true;
+        keys[e.getKeyCode()] = true;
     }
 
     @Override

@@ -64,6 +64,15 @@ public class Laser extends MovingObject{
                 Destruir();
                 break;
             }
+            if(m instanceof Limpiador && colisionaCon(m)){
+                if(!bonusactive){
+                    m.damage(potencia);
+                }else{
+                    m.damage(potencia + damagebonus);
+                }
+                Destruir();
+                break;
+            }
             if(m instanceof Ufo && colisionaCon(m)){if(!bonusactive){
                 m.damage(potencia);
             }else{

@@ -24,12 +24,13 @@ public class Assets {
     //Alien
     public static BufferedImage ufo;
     public static BufferedImage ufoBig;
+    public static BufferedImage limpiador;
 
     // efectos
     public static BufferedImage velocidad;
 
     // lasers
-    public static BufferedImage lazul,lverde,lrojo;
+    public static BufferedImage lazul,lverde,lrojo,lpeque;
 
     // numeros
     public static BufferedImage[] num = new BufferedImage[11];
@@ -41,6 +42,7 @@ public class Assets {
 
     // explosiones
     public static BufferedImage[] exp = new BufferedImage[9];
+    public static BufferedImage[] fuego = new BufferedImage[8];
 
     //barras
     public static BufferedImage[] barraLaser = new BufferedImage[11];
@@ -85,10 +87,11 @@ public class Assets {
     public static void init(){
         fondo = Loader.imageLoader("/res/Fondo/blue.png");
         jugador = Loader.imageLoader("/res/ships/player.png");
-        velocidad = Loader.imageLoader("/res/effects/fire08.png");
+        //velocidad = Loader.imageLoader("/res/effects/fire08.png");
         lazul = Loader.imageLoader("/res/lasers/laserBlue01.png");
         lverde = Loader.imageLoader("/res/lasers/laserGreen11.png");
         lrojo = Loader.imageLoader("/res/lasers/laserRed01.png");
+        lpeque = Loader.imageLoader("/res/lasers/misil.png");
         ufo = Loader.imageLoader("/res/ships/ufo.png");
         vidas = Loader.imageLoader("/res/otros/vidas.png");
         botonGris = Loader.imageLoader("/res/UI/grey_button00.png");
@@ -106,6 +109,7 @@ public class Assets {
         pilamonedas = Loader.imageLoader("/res/Money/pilamonedas.png");
         putensia = Loader.imageLoader("/res/PowerUps/power.png");
         ufoBig = Loader.imageLoader("/res/ships/ufoBig.png");
+        limpiador = Loader.imageLoader("/res/ships/Limpiador.png");
 
         musica = Loader.loadSonido("/res/Sonidos/musica.wav");
         explosion = Loader.loadSonido("/res/Sonidos/explosion.wav");
@@ -163,6 +167,10 @@ public class Assets {
 
         for(int i = 0;i<barraLaser.length;i++){
             barraLaser[i] = Loader.imageLoader("/res/barraLaser/"+i+".png");
+        }
+
+        for (int i = 0; i<fuego.length;i++){
+            fuego[i] = Loader.imageLoader("/res/effects/f"+i+".png");
         }
 
         for(int i = 0;i<barraVida.length;i++){
