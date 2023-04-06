@@ -17,6 +17,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" exported="" name="json-20230227" level="project" />
-    <orderEntry type="library" name="jinput-2.0.9" level="project" />
+    <orderEntry type="library" exported="" name="jinput-2.0.9" level="project" />
+    <orderEntry type="library" name="jinput-platform-2.0.5-natives-windows" level="project" />
   </component>
 </module>

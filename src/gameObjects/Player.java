@@ -1,5 +1,6 @@
 package gameObjects;
 
+import IO.JSONParser;
 import graficos.Animacion;
 import graficos.Assets;
 import graficos.Sonido;
@@ -14,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class Player extends MovingObject{
@@ -22,7 +24,8 @@ public class Player extends MovingObject{
     private Vector2D heading, aceleracion;
     private Crono fireRate, spawntime,flickering;
     private boolean spawning=true, visible, shieldOn, shotAllowed, accelerating=false;
-    private int contador = 0,vitalidad;
+    private int contador = 0,vitalidad,delay,ratio;
+    private static int ratio1bonus=0,ratio2bonus=0,ratio3bonus=0,ratio4bonus=0,delay1bonus=0,delay2bonus=0,delay3bonus=0,delay4bonus=0;
     private Timer temporizador;
     private Animacion shieldEffect,fuego;
 
@@ -36,7 +39,25 @@ public class Player extends MovingObject{
         fireRate = new Crono();
         spawntime = new Crono();
         flickering = new Crono();
-        temporizador = new Timer(250, new ActionListener() {
+
+        try{
+            if(JSONParser.leerConfiguracion("Recarga 1")){
+                delay1bonus =450;
+            }
+            if(JSONParser.leerConfiguracion("Recarga 2")){
+                delay2bonus =250;
+            }
+            if(JSONParser.leerConfiguracion("Recarga 3")){
+                delay3bonus =200;
+            }
+            if (JSONParser.leerConfiguracion("Recarga 4")){
+                delay4bonus =95;
+            }
+        }catch (FileNotFoundException e){
+            throw new RuntimeException(e);
+        }
+        this.delay = 1050 -delay1bonus-delay2bonus-delay3bonus-delay4bonus;
+        temporizador = new Timer(delay, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 disminuirContador();
@@ -46,8 +67,21 @@ public class Player extends MovingObject{
         shieldEffect = new Animacion(Assets.escudo,60,null);
         fuego = new Animacion(Assets.fuego,60,null);
         shotAllowed = true;
+
     }
 
+    public static void setDelay1bonus (int delay1bonus){
+        delay1bonus = 450;
+    }
+    public static void setDelay2bonus (int delay2bonus){
+        delay2bonus = 250;
+    }
+    public static void setDelay3bonus (int delay3bonus){
+        delay3bonus = 200;
+    }
+    public static void setDelay4bonus (int delay4bonus){
+        delay4bonus = 95;
+    }
     @Override
     public void actualizar(float dt) {
 
@@ -71,11 +105,28 @@ public class Player extends MovingObject{
 
         //actualizador de controles
         XBOXController mando = new XBOXController();
+        ratio = 1000;
+        try{
+            if(JSONParser.leerConfiguracion("Ratio 1")){
+                ratio1bonus = 500;
+            }
+            if(JSONParser.leerConfiguracion("Ratio 2")){
+                ratio2bonus = 250;
+            }
+            if(JSONParser.leerConfiguracion("Ratio 3")){
+                ratio3bonus = 150;
+            }
+            if(JSONParser.leerConfiguracion("Ratio 4")){
+                ratio4bonus = 50;
+            }
+        }catch (FileNotFoundException e){
+            throw new RuntimeException(e);
+        }
         if(shotAllowed){
             if(Keyboard.DISPARO && !fireRate.isRunning() && !spawning){
                 gameState.getMovingObjects().add(new Laser(getCenter().add(heading.escalar(ancho-30)), heading,
                         Constantes.LASER_SPEED, angle, Assets.lazul, gameState,5));
-                fireRate.run(100);
+                fireRate.run(ratio-ratio1bonus-ratio2bonus-ratio3bonus-ratio4bonus);
                 Sonido sonido = new Sonido(Assets.disparoJugador);
                 sonido.cambiarVolumen(-13);
                 sonido.play();
@@ -90,7 +141,7 @@ public class Player extends MovingObject{
             if(mando.isBotonR1Pulsado() && !fireRate.isRunning() && !spawning){
                 gameState.getMovingObjects().add(new Laser(getCenter().add(heading.escalar(ancho-30)), heading,
                         Constantes.LASER_SPEED, angle, Assets.lazul, gameState,5));
-                fireRate.run(100);
+                fireRate.run(ratio);
                 Sonido sonido = new Sonido(Assets.disparoJugador);
                 sonido.cambiarVolumen(-13);
                 sonido.play();
@@ -151,6 +202,18 @@ public class Player extends MovingObject{
         fuego.actualizar(dt);
         collidesWith();
 
+    }
+    public static void setRatio1Bonus(int ratio1Bonus){
+        Player.ratio1bonus= ratio1Bonus;
+    }
+    public static void setRatio2Bonus(int ratio2Bonus){
+        Player.ratio2bonus= ratio2Bonus;
+    }
+    public static void setRatio3Bonus(int ratio3Bonus){
+        Player.ratio3bonus= ratio3Bonus;
+    }
+    public static void setRatio4Bonus(int ratio4Bonus){
+        Player.ratio4bonus= ratio4Bonus;
     }
     @Override
     protected void collidesWith(){

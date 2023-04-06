@@ -3,7 +3,12 @@
     <output-path>$PROJECT_DIR$/out/artifacts/Juego_de_naves_jar</output-path>
     <root id="archive" name="Juego de naves.jar">
       <element id="module-output" name="Juego de naves" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/jinput-platform-2.0.5-natives-windows.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/jinput-2.0.9.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/json-20230227.jar" path-in-jar="/" />
+      <element id="library" level="project" name="jinput-2.0.9" />
+      <element id="library" level="project" name="json-20230227" />
+      <element id="library" level="project" name="jinput-platform-2.0.5-natives-windows" />
     </root>
   </artifact>
 </component>
