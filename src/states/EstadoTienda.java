@@ -420,7 +420,7 @@ public class EstadoTienda extends State {
                 break;
             case "Ratio 3":
                 if(!ratio3Presionado && !ratio3Activado){
-                    Player.setRatio2Bonus(150);
+                    Player.setRatio3Bonus(150);
                     ratioActivado.put(boton, true);
                     ratio3Activado = true;
                     guardarConfiguracion();
@@ -429,7 +429,7 @@ public class EstadoTienda extends State {
                 break;
             case "Ratio 4":
                 if(!ratio4Presionado && !ratio4Activado){
-                    Player.setRatio2Bonus(50);
+                    Player.setRatio4Bonus(50);
                     ratioActivado.put(boton, true);
                     ratio4Activado = true;
                     guardarConfiguracion();
