@@ -63,7 +63,5 @@ public class EstadoHowTo extends State{
         Text.drawText(g,"que la UFO-Mother ha enviado para poder",new Vector2D(550,490),false,Color.yellow,Assets.fuentepeque);
         Text.drawText(g,"enfrentarte finalmente a ella y librarnos",new Vector2D(550,520),false,Color.yellow,Assets.fuentepeque);
         Text.drawText(g,"de su amenaza!",new Vector2D(550,550),false,Color.yellow,Assets.fuentepeque);
-
-
     }
 }
