@@ -23,7 +23,7 @@ public class Player extends MovingObject{
     private long shieldTime;
     private Vector2D heading, aceleracion;
     private Crono fireRate, spawntime,flickering;
-    private boolean spawning=true, visible, shieldOn, shotAllowed, accelerating=false;
+    private boolean spawning=true, visible, shieldOn, shotAllowed, accelerating=false,doublefire = false;
     private int contador = 0,vitalidad,delay,ratio;
     private static int ratio1bonus=0,ratio2bonus=0,ratio3bonus=0,ratio4bonus=0,delay1bonus=0,delay2bonus=0,delay3bonus=0,delay4bonus=0;
     private Timer temporizador;
@@ -122,36 +122,106 @@ public class Player extends MovingObject{
         }catch (FileNotFoundException e){
             throw new RuntimeException(e);
         }
-        if(shotAllowed){
-            if(Keyboard.DISPARO && !fireRate.isRunning() && !spawning){
-                gameState.getMovingObjects().add(new Laser(getCenter().add(heading.escalar(ancho-30)), heading,
-                        Constantes.LASER_SPEED, angle, Assets.lazul, gameState,5));
-                fireRate.run(ratio-ratio1bonus-ratio2bonus-ratio3bonus-ratio4bonus);
-                Sonido sonido = new Sonido(Assets.disparoJugador);
-                sonido.cambiarVolumen(-13);
-                sonido.play();
-                actualizarContador();
+        if(shotAllowed) {
+            try {
+                if (JSONParser.leerConfiguracion("doublefire")) {
+                    if (Keyboard.DISPARO && !fireRate.isRunning() && !spawning) {
+                        Vector2D leftGun = getCenter();
+                        Vector2D rightGun = getCenter();
 
-                if(contador >=10){
-                    Sonido overheat = new Sonido(Assets.overheat);
-                    overheat.play();
-                    shotAllowed=false;
-                }
-            }
-            if(mando.isBotonR1Pulsado() && !fireRate.isRunning() && !spawning){
-                gameState.getMovingObjects().add(new Laser(getCenter().add(heading.escalar(ancho-30)), heading,
-                        Constantes.LASER_SPEED, angle, Assets.lazul, gameState,5));
-                fireRate.run(ratio);
-                Sonido sonido = new Sonido(Assets.disparoJugador);
-                sonido.cambiarVolumen(-13);
-                sonido.play();
-                actualizarContador();
+                        Vector2D temp = new Vector2D(heading);
+                        temp.normalizar();
+                        temp = temp.setDireccion(angle - 1.3f);
+                        temp = temp.escalar(ancho);
+                        rightGun = rightGun.add(temp);
 
-                if(contador >=10){
-                    Sonido overheat = new Sonido(Assets.overheat);
-                    overheat.play();
-                    shotAllowed=false;
+                        temp = temp.setDireccion(angle - 1.9f);
+                        leftGun = leftGun.add(temp);
+
+                        Laser l = new Laser(leftGun, heading, Constantes.LASER_SPEED, angle, Assets.lazul, gameState, 5);
+                        Laser r = new Laser(rightGun, heading, Constantes.LASER_SPEED, angle, Assets.lazul, gameState, 5);
+
+                        gameState.getMovingObjects().add(0, l);
+                        gameState.getMovingObjects().add(0, r);
+
+                        fireRate.run(ratio - ratio1bonus - ratio2bonus - ratio3bonus - ratio4bonus);
+                        Sonido sonido = new Sonido(Assets.disparoJugador);
+                        sonido.cambiarVolumen(-13);
+                        sonido.play();
+                        actualizarContador();
+
+                        if (contador >= 10) {
+                            Sonido overheat = new Sonido(Assets.overheat);
+                            overheat.play();
+                            shotAllowed = false;
+                        }
+                    }
+                    if (mando.isBotonR1Pulsado() && !fireRate.isRunning() && !spawning) {
+                        Vector2D leftGun = getCenter();
+                        Vector2D rightGun = getCenter();
+
+                        Vector2D temp = new Vector2D(heading);
+                        temp.normalizar();
+                        temp = temp.setDireccion(angle - 1.3f);
+                        temp = temp.escalar(ancho);
+                        rightGun = rightGun.add(temp);
+
+                        temp = temp.setDireccion(angle - 1.9f);
+                        leftGun = leftGun.add(temp);
+
+                        Laser l = new Laser(leftGun, heading, Constantes.LASER_SPEED, angle, Assets.lazul, gameState, 5);
+                        Laser r = new Laser(rightGun, heading, Constantes.LASER_SPEED, angle, Assets.lazul, gameState, 5);
+
+                        gameState.getMovingObjects().add(0, l);
+                        gameState.getMovingObjects().add(0, r);
+
+                        fireRate.run(ratio - ratio1bonus - ratio2bonus - ratio3bonus - ratio4bonus);
+                        Sonido sonido = new Sonido(Assets.disparoJugador);
+                        sonido.cambiarVolumen(-13);
+                        sonido.play();
+                        actualizarContador();
+
+                        if (contador >= 10) {
+                            Sonido overheat = new Sonido(Assets.overheat);
+                            overheat.play();
+                            shotAllowed = false;
+                        }
+                    }
                 }
+                if (!JSONParser.leerConfiguracion("doublefire")) {
+                    if (Keyboard.DISPARO && !fireRate.isRunning() && !spawning) {
+                        gameState.getMovingObjects().add(new Laser(getCenter().add(heading.escalar(ancho - 30)), heading,
+                                Constantes.LASER_SPEED, angle, Assets.lazul, gameState, 5));
+                        fireRate.run(ratio - ratio1bonus - ratio2bonus - ratio3bonus - ratio4bonus);
+                        Sonido sonido = new Sonido(Assets.disparoJugador);
+                        sonido.cambiarVolumen(-13);
+                        sonido.play();
+                        actualizarContador();
+
+                        if (contador >= 10) {
+                            Sonido overheat = new Sonido(Assets.overheat);
+                            overheat.play();
+                            shotAllowed = false;
+                        }
+                    }
+                    if (mando.isBotonR1Pulsado() && !fireRate.isRunning() && !spawning) {
+                        gameState.getMovingObjects().add(new Laser(getCenter().add(heading.escalar(ancho - 30)), heading,
+                                Constantes.LASER_SPEED, angle, Assets.lazul, gameState, 5));
+                        fireRate.run(ratio - ratio1bonus - ratio2bonus - ratio3bonus - ratio4bonus);
+                        Sonido sonido = new Sonido(Assets.disparoJugador);
+                        sonido.cambiarVolumen(-13);
+                        sonido.play();
+                        actualizarContador();
+
+                        if (contador >= 10) {
+                            Sonido overheat = new Sonido(Assets.overheat);
+                            overheat.play();
+                            shotAllowed = false;
+                        }
+                    }
+                }
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
             }
         }
         if (contador ==0){
@@ -316,6 +386,9 @@ public class Player extends MovingObject{
         BufferedImage barraVida= Assets.getBarraVida()[vitalidad/24];
         graphics.drawImage(barraVida,10,10,null);
 
+    }
+    public static void setDoublefire (boolean doublefire){
+        doublefire = doublefire;
     }
 
     public boolean isSpawning(){

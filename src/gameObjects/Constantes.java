@@ -27,7 +27,6 @@ public class Constantes {
     //propiedades del Limpiador
     public static final int LIMPIADOR_SPEED = 60;
     public static final long LIMPIADOR_FIRERATE = 150;
-    public static final int LIMPIADOR_SPAWNRATE = 55000;
     public static final int LIMPIADOR_SCORE = 25;
 
     // Propiedades de Alien
@@ -36,12 +35,10 @@ public class Constantes {
     public static long UFO_FIRERATE = 600;
     public static double UFO_ANGLE_RANGE = Math.PI/2;
     public static final int UFO_SCORE = 25;
-    public static final int UFO_SPAWN_RATE = 12000;
 
     //Propiedades de Alien grande
     public static long UFOBIG_FIRERATE = 500;
     public static final int UFOBIG_SCORE = 250;
-    public static final int UFOBIG_SPAWN_RATE = 45000;
 
 
     // Guardado de datos

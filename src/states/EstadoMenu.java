@@ -1,30 +1,42 @@
 package states;
 
-import IO.JSONParser;
 import UI.Accion;
 import UI.Buttones;
 import gameObjects.Constantes;
 import graficos.Assets;
+import graficos.Sonido;
+import graficos.Text;
+import math.Vector2D;
 
 import java.awt.*;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import static graficos.Assets.*;
 
 public class EstadoMenu extends State{
     private static ArrayList<Buttones> boton;;
+    private static boolean musicaisOn = false;
+    private Sonido musicamenu = new Sonido(musicaMenu);
     public EstadoMenu(){
-        boton = new ArrayList<>();
+        if(!musicaisOn){
+            musicamenu.cambiarVolumen(-10);
+            musicamenu.loop();
+            musicaisOn = true;
+        }
 
+        boton = new ArrayList<>();
         if(tripsMode){
             boton.add (new Buttones(
                     Assets.botonGris,
                     Assets.botonRojo,
                     345,
-                    360 ,
+                    360,
                     "MATATRIPS",
-                    () -> State.cambiarEstado(new GameState()),
+                    () ->{
+                        musicamenu.stop();
+                        musicaisOn = false;
+                        State.cambiarEstado(new GameState());
+                    },
                     1
             ));
         }else if(putoMode){
@@ -34,7 +46,11 @@ public class EstadoMenu extends State{
                     345,
                     360,
                     "MATAPUTOS",
-                    () -> State.cambiarEstado(new GameState()),
+                    () -> {
+                        musicamenu.stop();
+                        musicaisOn = false;
+                        State.cambiarEstado(new GameState());
+                    },
                     1
             ));
         }
@@ -45,7 +61,11 @@ public class EstadoMenu extends State{
                     345,
                     360 ,
                     "JUGAR",
-                    () -> State.cambiarEstado(new GameState()),
+                    () -> {
+                        musicamenu.stop();
+                        musicaisOn = false;
+                        State.cambiarEstado(new GameState());
+                    },
                     1
             ));
         }
@@ -110,5 +130,6 @@ public class EstadoMenu extends State{
         for(Buttones b: boton){
             b.dibujar(g);
         }
+        Text.drawText(g,"PONME TITULO",new Vector2D(270,150),false,Color.WHITE, fuenteTitulo);
     }
 }

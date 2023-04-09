@@ -130,7 +130,6 @@ public class UfoBig extends MovingObject{
         Sonido hit = new Sonido(Assets.hit);
         hit.play();
         vitalidad -= danio;
-        System.out.println(""+vitalidad);
         if(vitalidad <=0){
             Destruir();
         }

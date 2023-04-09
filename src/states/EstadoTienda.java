@@ -23,9 +23,12 @@ public class EstadoTienda extends State {
     private boolean potencia3Presionado = false;
     private boolean potencia4Presionado = false;
     private ArrayList<Buttones> boton;
+    private ArrayList<ButtonesPeques> botoncilloOtros;
     private ArrayList<ButtonesPeques> botoncilloPotencia;
     private ArrayList<ButtonesPeques> botoncilloRatio;
     private ArrayList<ButtonesPeques> botoncilloRecarga;
+    private boolean doublefireActivado = false;
+    private boolean doublefirePulsado = false;
     private boolean potencia1Activada = false;
     private boolean potencia2Activada = false;
     private boolean potencia3Activada = false;
@@ -49,15 +52,18 @@ public class EstadoTienda extends State {
     private HashMap<String, Boolean> potenciaActivada;
     private HashMap<String, Boolean> ratioActivado;
     private HashMap<String, Boolean> recargaActivada;
+    private HashMap<String, Boolean> otrosActivados;
 
     public EstadoTienda() {
         boton = new ArrayList<>();
+        botoncilloOtros = new ArrayList<>();
         botoncilloPotencia = new ArrayList<>();
         botoncilloRatio = new ArrayList<>();
         botoncilloRecarga = new ArrayList<>();
         potenciaActivada = new HashMap<>();
         ratioActivado = new HashMap<>();
         recargaActivada = new HashMap<>();
+        otrosActivados = new HashMap<>();
         potenciaActivada.put("Potencia 1", false);
         potenciaActivada.put("Potencia 2", false);
         ratioActivado.put("Ratio 1", false);
@@ -78,11 +84,11 @@ public class EstadoTienda extends State {
                 Assets.botonPequeGris,
                 Assets.botonPequeRojo,
                 200, 200,
-                "20",
+                "5",
                 () -> {
-                    if (JSONParser.getCoinsTotal() >= 20) {
+                    if (JSONParser.getCoinsTotal() >= 5) {
                         actualizarBonus("Potencia 1");
-                        JSONParser.restarCoinsTotal(20);
+                        JSONParser.restarCoinsTotal(5);
                         potencia1Presionado = true;
                     }
                 },
@@ -93,11 +99,11 @@ public class EstadoTienda extends State {
                         Assets.botonPequeGris,
                         Assets.botonPequeRojo,
                         200, 250,
-                        "200",
+                        "10",
                         () -> {
-                            if (JSONParser.getCoinsTotal() >= 200) {
+                            if (JSONParser.getCoinsTotal() >= 10) {
                                 actualizarBonus("Potencia 2");
-                                JSONParser.restarCoinsTotal(200);
+                                JSONParser.restarCoinsTotal(10);
                                 potencia2Presionado = true;
                             }
                         },
@@ -112,11 +118,11 @@ public class EstadoTienda extends State {
                         Assets.botonPequeGris,
                         Assets.botonPequeRojo,
                         200, 300,
-                        "2000",
+                        "25",
                         () -> {
-                            if (JSONParser.getCoinsTotal() >= 2000) {
+                            if (JSONParser.getCoinsTotal() >= 25) {
                                 actualizarBonus("Potencia 3");
-                                JSONParser.restarCoinsTotal(2000);
+                                JSONParser.restarCoinsTotal(25);
                                 potencia3Presionado = true;
                             }
                         },
@@ -132,11 +138,11 @@ public class EstadoTienda extends State {
                         Assets.botonPequeGris,
                         Assets.botonPequeRojo,
                         200, 350,
-                        "20000",
+                        "50",
                         () -> {
-                            if (JSONParser.getCoinsTotal() >= 20000) {
+                            if (JSONParser.getCoinsTotal() >= 50) {
                                 actualizarBonus("Potencia 4");
-                                JSONParser.restarCoinsTotal(20000);
+                                JSONParser.restarCoinsTotal(50);
                                 potencia4Presionado = true;
                             }
                         },
@@ -150,11 +156,11 @@ public class EstadoTienda extends State {
                 Assets.botonPequeGris,
                 Assets.botonPequeRojo,
                 400,200,
-                "20",
+                "5",
                 () ->{
-                    if(JSONParser.getCoinsTotal()>=20){
+                    if(JSONParser.getCoinsTotal()>=5){
                         actualizarBonus("Ratio 1");
-                        JSONParser.restarCoinsTotal(20);
+                        JSONParser.restarCoinsTotal(5);
                         ratio1Presionado = true;
                     }
                 },
@@ -166,11 +172,11 @@ public class EstadoTienda extends State {
                         Assets.botonPequeGris,
                         Assets.botonPequeRojo,
                         400, 250,
-                        "200",
+                        "10",
                         () -> {
-                            if (JSONParser.getCoinsTotal() >= 200) {
+                            if (JSONParser.getCoinsTotal() >= 10) {
                                 actualizarBonus("Ratio 2");
-                                JSONParser.restarCoinsTotal(200);
+                                JSONParser.restarCoinsTotal(10);
                                 ratio2Presionado = true;
                             }
                         },
@@ -185,11 +191,11 @@ public class EstadoTienda extends State {
                         Assets.botonPequeGris,
                         Assets.botonPequeRojo,
                         400, 300,
-                        "2000",
+                        "25",
                         () -> {
-                            if (JSONParser.getCoinsTotal() >= 2000) {
+                            if (JSONParser.getCoinsTotal() >= 25) {
                                 actualizarBonus("Ratio 3");
-                                JSONParser.restarCoinsTotal(2000);
+                                JSONParser.restarCoinsTotal(25);
                                 ratio3Presionado = true;
                             }
                         },
@@ -205,11 +211,11 @@ public class EstadoTienda extends State {
                         Assets.botonPequeGris,
                         Assets.botonPequeRojo,
                         400, 350,
-                        "20000",
+                        "50",
                         () -> {
-                            if (JSONParser.getCoinsTotal() >= 20000) {
+                            if (JSONParser.getCoinsTotal() >= 50) {
                                 actualizarBonus("Ratio 4");
-                                JSONParser.restarCoinsTotal(20000);
+                                JSONParser.restarCoinsTotal(50);
                                 ratio4Presionado = true;
                             }
                         },
@@ -222,11 +228,11 @@ public class EstadoTienda extends State {
                 Assets.botonPequeGris,
                 Assets.botonPequeRojo,
                 600,200,
-                "20",
+                "5",
                 () ->{
-                    if(JSONParser.getCoinsTotal() >= 20){
+                    if(JSONParser.getCoinsTotal() >= 5){
                         actualizarBonus("Recarga 1");
-                        JSONParser.restarCoinsTotal(20);
+                        JSONParser.restarCoinsTotal(5);
                         recarga1Presionada = true;
                     }
                 },
@@ -238,11 +244,11 @@ public class EstadoTienda extends State {
                         Assets.botonPequeGris,
                         Assets.botonPequeRojo,
                         600,250,
-                        "200",
+                        "10",
                         () ->{
-                            if(JSONParser.getCoinsTotal() >= 200){
+                            if(JSONParser.getCoinsTotal() >= 10){
                                 actualizarBonus("Recarga 2");
-                                JSONParser.restarCoinsTotal(200);
+                                JSONParser.restarCoinsTotal(10);
                                 recarga2Presionada = true;
                             }
                         },
@@ -258,11 +264,11 @@ public class EstadoTienda extends State {
                         Assets.botonPequeGris,
                         Assets.botonPequeRojo,
                         600,300,
-                        "2000",
+                        "25",
                         () ->{
-                            if(JSONParser.getCoinsTotal() >= 2000){
+                            if(JSONParser.getCoinsTotal() >= 25){
                                 actualizarBonus("Recarga 3");
-                                JSONParser.restarCoinsTotal(2000);
+                                JSONParser.restarCoinsTotal(25);
                                 recarga3Presionada = true;
                             }
                         },
@@ -279,20 +285,34 @@ public class EstadoTienda extends State {
                         Assets.botonPequeGris,
                         Assets.botonPequeRojo,
                         600,350,
-                        "20000",
+                        "50",
                         () ->{
-                            if(JSONParser.getCoinsTotal() >= 20000){
+                            if(JSONParser.getCoinsTotal() >= 50){
                                 actualizarBonus("Recarga 4");
-                                JSONParser.restarCoinsTotal(20000);
+                                JSONParser.restarCoinsTotal(50);
                                 recarga4Presionada = true;
                             }
                         },
-                        42
+                        43
                 ));
             }
         }catch (FileNotFoundException e){
             throw new RuntimeException(e);
         }
+        botoncilloOtros.add(new ButtonesPeques(
+                Assets.botonPequeGris,
+                Assets.botonPequeRojo,
+                800,200,
+                "40",
+                () -> {
+                    if(JSONParser.getCoinsTotal() >= 40){
+                        actualizarBonus("doublefire");
+                        JSONParser.restarCoinsTotal(40);
+                        doublefirePulsado = true;
+                    }
+                },
+                50
+        ));
 
         try {
             potencia1Activada = JSONParser.leerConfiguracion("Potencia 1");
@@ -307,6 +327,7 @@ public class EstadoTienda extends State {
             recarga2Activada = JSONParser.leerConfiguracion("Recarga 2");
             recarga3Activada = JSONParser.leerConfiguracion("Recarga 3");
             recarga4Activada = JSONParser.leerConfiguracion("Recarga 4");
+            doublefireActivado = JSONParser.leerConfiguracion("doublefire");
 
             potenciaActivada.put("Potencia 1", potencia1Activada);
             potenciaActivada.put("Potencia 2", potencia2Activada);
@@ -320,42 +341,46 @@ public class EstadoTienda extends State {
             recargaActivada.put("Recarga 2",recarga2Activada);
             recargaActivada.put("Recarga 3",recarga3Activada);
             recargaActivada.put("Recarga 4",recarga4Activada);
+            otrosActivados.put("doublefire", doublefireActivado);
 
             if (potencia1Activada) {
-                botoncilloPotencia.removeIf(b -> b.getTexto().equals("20"));
+                botoncilloPotencia.removeIf(b -> b.getTexto().equals("5"));
             }
             if (potencia2Activada) {
-                botoncilloPotencia.removeIf(b -> b.getTexto().equals("200"));
+                botoncilloPotencia.removeIf(b -> b.getTexto().equals("10"));
             }
             if (potencia3Activada) {
-                botoncilloPotencia.removeIf(b -> b.getTexto().equals("2000"));
+                botoncilloPotencia.removeIf(b -> b.getTexto().equals("25"));
             }
             if (potencia4Activada) {
-                botoncilloPotencia.removeIf(b -> b.getTexto().equals("20000"));
+                botoncilloPotencia.removeIf(b -> b.getTexto().equals("50"));
             }
             if(ratio1Activado){
-                botoncilloRatio.removeIf(b -> b.getTexto().equals("20"));
+                botoncilloRatio.removeIf(b -> b.getTexto().equals("5"));
             }
             if(ratio2Activado){
-                botoncilloRatio.removeIf(b -> b.getTexto().equals("200"));
+                botoncilloRatio.removeIf(b -> b.getTexto().equals("10"));
             }
             if(ratio3Activado){
-                botoncilloRatio.removeIf(b -> b.getTexto().equals("2000"));
+                botoncilloRatio.removeIf(b -> b.getTexto().equals("25"));
             }
             if(ratio4Activado){
-                botoncilloRatio.removeIf(b -> b.getTexto().equals("20000"));
+                botoncilloRatio.removeIf(b -> b.getTexto().equals("50"));
             }
             if(recarga1Activada){
-                botoncilloRecarga.removeIf(b -> b.getTexto().equals("20"));
+                botoncilloRecarga.removeIf(b -> b.getTexto().equals("5"));
             }
             if(recarga2Activada){
-                botoncilloRecarga.removeIf(b -> b.getTexto().equals("200"));
+                botoncilloRecarga.removeIf(b -> b.getTexto().equals("10"));
             }
             if(recarga3Activada){
-                botoncilloRecarga.removeIf(b -> b.getTexto().equals("2000"));
+                botoncilloRecarga.removeIf(b -> b.getTexto().equals("25"));
             }
             if(recarga4Activada){
-                botoncilloRecarga.removeIf(b -> b.getTexto().equals("20000"));
+                botoncilloRecarga.removeIf(b -> b.getTexto().equals("50"));
+            }
+            if(doublefireActivado){
+                botoncilloOtros.removeIf(b -> b.getTexto().equals("40"));
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -370,7 +395,7 @@ public class EstadoTienda extends State {
                     potenciaActivada.put(boton, true);
                     potencia1Activada = true;
                     guardarConfiguracion();
-                    botoncilloPotencia.removeIf(b -> b.getTexto().equals("20"));
+                    botoncilloPotencia.removeIf(b -> b.getTexto().equals("5"));
                 }
                 break;
             case "Potencia 2":
@@ -379,7 +404,7 @@ public class EstadoTienda extends State {
                     potenciaActivada.put(boton, true);
                     potencia2Activada = true;
                     guardarConfiguracion();
-                    botoncilloPotencia.removeIf(b -> b.getTexto().equals("200"));
+                    botoncilloPotencia.removeIf(b -> b.getTexto().equals("10"));
                 }
                 break;
             case "Potencia 3":
@@ -388,7 +413,7 @@ public class EstadoTienda extends State {
                     potenciaActivada.put(boton, true);
                     potencia3Activada = true;
                     guardarConfiguracion();
-                    botoncilloPotencia.removeIf(b -> b.getTexto().equals("2000"));
+                    botoncilloPotencia.removeIf(b -> b.getTexto().equals("25"));
                 }
                 break;
             case "Potencia 4":
@@ -397,7 +422,7 @@ public class EstadoTienda extends State {
                     potenciaActivada.put(boton, true);
                     potencia4Activada = true;
                     guardarConfiguracion();
-                    botoncilloPotencia.removeIf(b -> b.getTexto().equals("20000"));
+                    botoncilloPotencia.removeIf(b -> b.getTexto().equals("50"));
                 }
                 break;
             case "Ratio 1":
@@ -406,7 +431,7 @@ public class EstadoTienda extends State {
                     ratioActivado.put(boton, true);
                     ratio1Activado = true;
                     guardarConfiguracion();
-                    botoncilloRatio.removeIf(b -> b.getTexto().equals("20"));
+                    botoncilloRatio.removeIf(b -> b.getTexto().equals("5"));
                 }
                 break;
             case "Ratio 2":
@@ -415,7 +440,7 @@ public class EstadoTienda extends State {
                     ratioActivado.put(boton, true);
                     ratio2Activado = true;
                     guardarConfiguracion();
-                    botoncilloRatio.removeIf(b -> b.getTexto().equals("200"));
+                    botoncilloRatio.removeIf(b -> b.getTexto().equals("10"));
                 }
                 break;
             case "Ratio 3":
@@ -424,7 +449,7 @@ public class EstadoTienda extends State {
                     ratioActivado.put(boton, true);
                     ratio3Activado = true;
                     guardarConfiguracion();
-                    botoncilloRatio.removeIf(b -> b.getTexto().equals("2000"));
+                    botoncilloRatio.removeIf(b -> b.getTexto().equals("25"));
                 }
                 break;
             case "Ratio 4":
@@ -433,7 +458,7 @@ public class EstadoTienda extends State {
                     ratioActivado.put(boton, true);
                     ratio4Activado = true;
                     guardarConfiguracion();
-                    botoncilloRatio.removeIf(b -> b.getTexto().equals("20000"));
+                    botoncilloRatio.removeIf(b -> b.getTexto().equals("50"));
                 }
                 break;
             case "Recarga 1":
@@ -442,7 +467,7 @@ public class EstadoTienda extends State {
                     recargaActivada.put(boton, true);
                     recarga1Activada = true;
                     guardarConfiguracion();
-                    botoncilloRecarga.removeIf(b -> b.getTexto().equals("20"));
+                    botoncilloRecarga.removeIf(b -> b.getTexto().equals("5"));
                 }
                 break;
             case "Recarga 2":
@@ -451,7 +476,7 @@ public class EstadoTienda extends State {
                     recargaActivada.put(boton, true);
                     recarga2Activada = true;
                     guardarConfiguracion();
-                    botoncilloRecarga.removeIf(b -> b.getTexto().equals("200"));
+                    botoncilloRecarga.removeIf(b -> b.getTexto().equals("10"));
                 }
                 break;
             case "Recarga 3":
@@ -460,7 +485,7 @@ public class EstadoTienda extends State {
                     recargaActivada.put(boton, true);
                     recarga3Activada = true;
                     guardarConfiguracion();
-                    botoncilloRecarga.removeIf(b -> b.getTexto().equals("2000"));
+                    botoncilloRecarga.removeIf(b -> b.getTexto().equals("25"));
                 }
                 break;
             case "Recarga 4":
@@ -469,9 +494,18 @@ public class EstadoTienda extends State {
                     recargaActivada.put(boton, true);
                     recarga4Activada = true;
                     guardarConfiguracion();
-                    botoncilloRecarga.removeIf(b -> b.getTexto().equals("20000"));
+                    botoncilloRecarga.removeIf(b -> b.getTexto().equals("50"));
                 }
                 break;
+            case "doublefire":
+                if(!doublefirePulsado && !doublefireActivado){
+                    GameState.setDoublefire(true);
+                    Player.setDoublefire(true);
+                    otrosActivados.put(boton,true);
+                    doublefireActivado = true;
+                    guardarConfiguracion();
+                    botoncilloOtros.removeIf(b -> b.getTexto().equals("40"));
+                }
             default:
                 break;
         }
@@ -492,6 +526,7 @@ public class EstadoTienda extends State {
             obj.put("Recarga 2", recargaActivada.get("Recarga 2"));
             obj.put("Recarga 3", recargaActivada.get("Recarga 3"));
             obj.put("Recarga 4", recargaActivada.get("Recarga 4"));
+            obj.put("doublefire", otrosActivados.get("doublefire"));
             JSONParser.escribirConfiguracion(obj);
         } catch (IOException e) {
             e.printStackTrace();
@@ -504,6 +539,7 @@ public class EstadoTienda extends State {
         ArrayList<ButtonesPeques>botoncilloCopy = (ArrayList<ButtonesPeques>) botoncilloPotencia.clone();
         ArrayList<ButtonesPeques>botoncilloRatioCopy = (ArrayList<ButtonesPeques>) botoncilloRatio.clone();
         ArrayList<ButtonesPeques>botoncilloRecargaCopy= (ArrayList<ButtonesPeques>) botoncilloRecarga.clone();
+        ArrayList<ButtonesPeques>botoncilloOtrosCopy= (ArrayList<ButtonesPeques>) botoncilloOtros.clone();
         for (Buttones b : boton) {
             b.actualizar();
         }
@@ -528,6 +564,13 @@ public class EstadoTienda extends State {
                 throw new RuntimeException(e);
             }
         }
+        for(ButtonesPeques b: botoncilloOtrosCopy){
+            try{
+                b.actualizar();
+            }catch (IOException e){
+                throw new RuntimeException(e);
+            }
+        }
 
     }
 
@@ -546,6 +589,9 @@ public class EstadoTienda extends State {
         for(ButtonesPeques b: botoncilloRecarga){
             b.dibujar(g);
         }
+        for(ButtonesPeques b: botoncilloOtros){
+            b.dibujar(g);
+        }
         try {
             Text.drawText(g,"= "+ JSONParser.getCoinsTotal(),new Vector2D(535,95),false,Color.yellow,Assets.fuente);
             Text.drawText(g,"POWER 1",new Vector2D(220,195),false,Color.yellow,Assets.fuentetiny);
@@ -560,6 +606,7 @@ public class EstadoTienda extends State {
             Text.drawText(g,"RELOAD 2",new Vector2D(615,245),false,Color.yellow,Assets.fuentetiny);
             Text.drawText(g,"RELOAD 3",new Vector2D(615,295),false,Color.yellow,Assets.fuentetiny);
             Text.drawText(g,"RELOAD 4",new Vector2D(615,345),false,Color.yellow,Assets.fuentetiny);
+            Text.drawText(g,"DOUBLEFIRE",new Vector2D(800,195),false,Color.yellow,Assets.fuentetiny);
             g.drawImage(Assets.pilamonedas,450,50,null);
             if(potencia1Activada){
                 Text.drawText(g,"SOLD",new Vector2D(230,220),false,Color.red,Assets.fuentetiny);
@@ -596,6 +643,9 @@ public class EstadoTienda extends State {
             }
             if(ratio4Activado){
                 Text.drawText(g,"SOLD",new Vector2D(430,370),false,Color.red,Assets.fuentetiny);
+            }
+            if(doublefireActivado){
+                Text.drawText(g,"SOLD",new Vector2D(830,220),false,Color.red,Assets.fuentetiny);
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);

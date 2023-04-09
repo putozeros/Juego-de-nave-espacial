@@ -1,6 +1,5 @@
 package states;
 
-import UI.Accion;
 import UI.Buttones;
 import graficos.Assets;
 
@@ -24,8 +23,8 @@ public class EstadoOpciones extends State{
                 450,
                 "TRIPSMODE",
                 () ->  {
-                    cambiarModoTrips();
                     State.cambiarEstado(new EstadoMenu());
+                    cambiarModoTrips();
                 },
                 5
         ));
@@ -36,8 +35,8 @@ public class EstadoOpciones extends State{
                 450,
                 "PUTOMODE",
                 () -> {
-                    cambiarPutoMode();
                     State.cambiarEstado(new EstadoMenu());
+                    cambiarPutoMode();
                   } ,
                 6
         ));
@@ -48,8 +47,8 @@ public class EstadoOpciones extends State{
                 450,
                 "NORMAL",
                 () -> {
-                    cambiarNormal();
                     State.cambiarEstado(new EstadoMenu());
+                    cambiarNormal();
                 } ,
                 7
         ));
@@ -59,12 +58,7 @@ public class EstadoOpciones extends State{
                 Assets.botonRojo,
                 100, 550,
                 "VOLVER",
-                new Accion() {
-                    @Override
-                    public void doAction() {
-                        State.cambiarEstado(new EstadoMenu());
-                    }
-                },
+                () -> State.cambiarEstado(new EstadoMenu()),
                 8
         );
         boton.add(retornar);

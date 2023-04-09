@@ -20,14 +20,13 @@ public class Assets {
 
     //jugador
     public static BufferedImage jugador;
+    public static BufferedImage jugador2;
 
     //Alien
     public static BufferedImage ufo;
     public static BufferedImage ufoBig;
+    public static BufferedImage ufoBoss;
     public static BufferedImage limpiador;
-
-    // efectos
-    public static BufferedImage velocidad;
 
     // lasers
     public static BufferedImage lazul,lverde,lrojo,lpeque;
@@ -43,6 +42,7 @@ public class Assets {
     // explosiones
     public static BufferedImage[] exp = new BufferedImage[9];
     public static BufferedImage[] fuego = new BufferedImage[8];
+    public static BufferedImage[] endingPuto = new BufferedImage[7];
 
     //barras
     public static BufferedImage[] barraLaser = new BufferedImage[11];
@@ -64,11 +64,13 @@ public class Assets {
     public static Font fuente;
     public static Font fuentepeque;
     public static Font fuentetiny;
-
-
+    public static Font fuenteTitulo;
+    public static BufferedImage bocadillo;
 
     //Sonido
-    public static Clip musica,explosion,lose,disparoJugador,disparoAlien,overheat,powerUpSound,monetizacion,hit,playerHit;
+    public static Clip musica,explosion,lose,disparoJugador,disparoAlien,overheat,powerUpSound,monetizacion,hit,playerHit,
+    musicaMenu,musicaEnding;
+
     public static void cambiarModoTrips(){
         tripsMode = !tripsMode;
         putoMode = false;
@@ -87,7 +89,7 @@ public class Assets {
     public static void init(){
         fondo = Loader.imageLoader("/res/Fondo/blue.png");
         jugador = Loader.imageLoader("/res/ships/player.png");
-        //velocidad = Loader.imageLoader("/res/effects/fire08.png");
+        jugador2 = Loader.imageLoader("/res/ships/player2.png");
         lazul = Loader.imageLoader("/res/lasers/laserBlue01.png");
         lverde = Loader.imageLoader("/res/lasers/laserGreen11.png");
         lrojo = Loader.imageLoader("/res/lasers/laserRed01.png");
@@ -101,6 +103,7 @@ public class Assets {
         fuente = Loader.loadFuente("/res/Fuentes/kenvector_future.ttf" ,42);
         fuentepeque = Loader.loadFuente("/res/Fuentes/kenvector_future.ttf",22);
         fuentetiny = Loader.loadFuente("/res/Fuentes/kenvector_future.ttf",14);
+        fuenteTitulo = Loader.loadFuente("/res/Fuentes/kenvector_future.ttf",84);
         orbe = Loader.imageLoader("/res/PowerUps/orbe.png");
         escudito = Loader.imageLoader("/res/PowerUps/scudo.png");
         money = Loader.imageLoader("/res/Money/dinieropeque.png");
@@ -110,6 +113,8 @@ public class Assets {
         putensia = Loader.imageLoader("/res/PowerUps/power.png");
         ufoBig = Loader.imageLoader("/res/ships/ufoBig.png");
         limpiador = Loader.imageLoader("/res/ships/Limpiador.png");
+        ufoBoss = Loader.imageLoader("/res/ships/ufoBoss.png");
+        bocadillo = Loader.imageLoader("/res/Ending/bocadillo.png");
 
         musica = Loader.loadSonido("/res/Sonidos/musica.wav");
         explosion = Loader.loadSonido("/res/Sonidos/explosion.wav");
@@ -121,6 +126,8 @@ public class Assets {
         monetizacion = Loader.loadSonido("/res/Sonidos/monetizar.wav");
         hit = Loader.loadSonido("/res/Sonidos/HitBajo.wav");
         playerHit = Loader.loadSonido("/res/Sonidos/PlayerHit.wav");
+        musicaMenu = Loader.loadSonido("/res/Sonidos/Musicamenu.wav");
+        musicaEnding = Loader.loadSonido("/res/Sonidos/endingmusic.wav");
 
         if(tripsMode){
             for(int i = 0;i<grandes.length;i++){
@@ -187,6 +194,9 @@ public class Assets {
 
         for(int i = 0;i < escudo.length; i++) {
             escudo[i] = Loader.imageLoader("/res/PowerUps/escudo/"+i+".png");
+        }
+        for(int i = 0; i <endingPuto.length;i++){
+            endingPuto[i] = Loader.imageLoader("/res/Ending/"+i+".png");
         }
     }
 

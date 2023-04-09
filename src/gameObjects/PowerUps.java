@@ -34,7 +34,6 @@ public class PowerUps extends MovingObject{
             throw new RuntimeException(e);
         }
         recoger.play();
-
     }
 
     @Override

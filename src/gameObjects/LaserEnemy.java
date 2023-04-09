@@ -1,8 +1,5 @@
 package gameObjects;
 
-import UI.Accion;
-import graficos.Assets;
-import graficos.Sonido;
 import math.Vector2D;
 import states.GameState;
 
@@ -47,7 +44,7 @@ public class LaserEnemy extends MovingObject {
                 break;
             }
             if (m instanceof Player && colisionaCon(m)) {
-                m.damage(2);
+                m.damage(50);
                 Destruir();
                 break;
             }

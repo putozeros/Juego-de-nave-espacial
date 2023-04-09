@@ -76,7 +76,7 @@ public class Laser extends MovingObject{
             if(m instanceof Ufo && colisionaCon(m)){if(!bonusactive){
                 m.damage(potencia);
             }else{
-                m.damage(potencia + damagebonus);
+                m.damage(potencia * damagebonus);
             }
                 Destruir();
                 break;
@@ -85,7 +85,16 @@ public class Laser extends MovingObject{
                 if(!bonusactive){
                     m.damage(potencia);
                 }else{
-                    m.damage(potencia+damagebonus);
+                    m.damage(potencia*damagebonus);
+                }
+                Destruir();
+                break;
+            }
+            if(m instanceof UfoBoss && colisionaCon(m)){
+                if(!bonusactive){
+                    m.damage(potencia);
+                }else{
+                    m.damage(potencia*damagebonus);
                 }
                 Destruir();
                 break;

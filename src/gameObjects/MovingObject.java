@@ -57,6 +57,12 @@ public abstract class MovingObject extends GameObject{
             if(m instanceof Asteroide && this instanceof Ufo){
                 continue;
             }
+            if(m instanceof Asteroide && this instanceof UfoBig){
+                continue;
+            }
+            if(m instanceof Asteroide && this instanceof UfoBoss){
+                continue;
+            }
             if(m instanceof Asteroide && this instanceof Player){
                 damage(5);
             }

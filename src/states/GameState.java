@@ -11,6 +11,7 @@ import math.Vector2D;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -24,29 +25,41 @@ public class GameState extends State {
     private ArrayList<Animacion> explosiones = new ArrayList<Animacion>();
     private ArrayList<Mensaje> mensajes = new ArrayList<Mensaje>();
     private int puntuacion = 0, vidas = 1, money = 0, asteroides, waves = 1, maxUfo = 2, maxUfoBig = 1,
-            ufoCounter=0, ufoBigCounter=0;
-    private boolean gameOver;
-    private Sonido musica;
+            ufoCounter=0, ufoBigCounter=0,UFO_SPAWN_RATE = 12000,UFOBIG_SPAWN_RATE=35000,LIMPIADOR_SPAWNRATE=45000;
+    private boolean gameOver,doublefire = false,bossSpawned = false;
+    public Sonido musica;
     private Crono timerGameOver, ufoSpawner, ufoBigSpawner,limpiadorSpawner;
 
     public GameState() {
-        player = new Player(PLAYER_START_POSITION, new Vector2D(), 6, Assets.jugador, this, 2400);
+        try{
+            if(JSONParser.leerConfiguracion("doublefire")){
+                player = new Player(PLAYER_START_POSITION, new Vector2D(), 6, Assets.jugador2, this, 2400);
+            }
+            else{
+                player = new Player(PLAYER_START_POSITION, new Vector2D(), 6, Assets.jugador, this, 2400);
+            }
+        }catch (FileNotFoundException e){
+            throw new RuntimeException(e);
+        }
+
         timerGameOver = new Crono();
         gameOver = false;
         movingObjects.add(player);
         musica = new Sonido(Assets.musica);
         musica.cambiarVolumen(-10);
-        // musica.loop();
+        musica.loop();
         asteroides = 1;
         iniciarOleada();
         ufoSpawner = new Crono();
-        ufoSpawner.run(Constantes.UFO_SPAWN_RATE);
+        ufoSpawner.run(UFO_SPAWN_RATE);
         ufoBigSpawner = new Crono();
-        ufoBigSpawner.run(Constantes.UFOBIG_SPAWN_RATE);
+        ufoBigSpawner.run(UFOBIG_SPAWN_RATE);
         limpiadorSpawner = new Crono();
-        limpiadorSpawner.run(Constantes.LIMPIADOR_SPAWNRATE);
+        limpiadorSpawner.run(LIMPIADOR_SPAWNRATE);
     }
-
+    public static void setDoublefire (boolean doublefire){
+        doublefire = doublefire;
+    }
     public void addpuntuacion(int value, Vector2D posicion) {
         puntuacion += value;
         if (puntuacion % 100 == 0) {
@@ -117,8 +130,12 @@ public class GameState extends State {
                     11
             ));
         }
+
         asteroides++;
         waves++;
+        UFO_SPAWN_RATE -=1000;
+        UFOBIG_SPAWN_RATE -= 3000;
+        LIMPIADOR_SPAWNRATE -= 4500;
     }
 
     public void playExplosion(Vector2D posicion){
@@ -228,6 +245,58 @@ public class GameState extends State {
                 5
         ));
     }
+    private void spawnBoss(){
+        int rand = (int)(Math.random()*2);
+
+        double x = rand == 0 ? (Math.random()*Constantes.WIDTH) : 0;
+        double y = rand == 0 ? 0 : (Math.random()*Constantes.HEIGHT);
+
+        ArrayList<Vector2D> path = new ArrayList<Vector2D>();
+
+        double posX, posY;
+
+        posX = Math.random()*Constantes.WIDTH/2;
+        posY = Math.random()*Constantes.HEIGHT/2;
+        path.add(new Vector2D(posX,posY));
+
+        posX = Math.random()*Constantes.WIDTH/2 + Constantes.WIDTH/2;
+        posY = Math.random()*Constantes.HEIGHT/2;
+        path.add(new Vector2D(posX,posY));
+
+        posX = Math.random()*Constantes.WIDTH/2;
+        posY = Math.random()*Constantes.HEIGHT/2 + Constantes.HEIGHT/2;
+        path.add(new Vector2D(posX,posY));
+
+        posX = Math.random()*Constantes.WIDTH/2 + Constantes.WIDTH/2;
+        posY = Math.random()*Constantes.HEIGHT/2 + Constantes.HEIGHT/2;
+        path.add(new Vector2D(posX,posY));
+
+        posX = Math.random()*Constantes.WIDTH/2 + Constantes.WIDTH/3;
+        posY = Math.random()*Constantes.HEIGHT/2 + Constantes.HEIGHT;
+        path.add(new Vector2D(posX,posY));
+
+        posX = Math.random()*Constantes.WIDTH/2 + Constantes.WIDTH;
+        posY = Math.random()*Constantes.HEIGHT/2 + Constantes.HEIGHT/3;
+        path.add(new Vector2D(posX,posY));
+
+        posX = Math.random()*Constantes.WIDTH/3 + Constantes.WIDTH/3;
+        posY = Math.random()*Constantes.HEIGHT + Constantes.HEIGHT;
+        path.add(new Vector2D(posX,posY));
+
+        posX = Math.random()*Constantes.WIDTH/2 + Constantes.WIDTH/3;
+        posY = Math.random()*Constantes.HEIGHT/3 + Constantes.HEIGHT/2;
+        path.add(new Vector2D(posX,posY));
+
+        movingObjects.add(new UfoBoss(
+                new Vector2D(x,y),
+                new Vector2D(),
+                Constantes.UFO_MAX_SPEED/3,
+                Assets.ufoBoss,
+                path,
+                this,
+                15000
+        ));
+    }
     private void spawnerPowerUp(){
         final int x = (int) ((Constantes.WIDTH - Assets.orbe.getWidth())*Math.random());
         final int y = (int) ((Constantes.HEIGHT - Assets.orbe.getHeight())*Math.random());
@@ -257,7 +326,7 @@ public class GameState extends State {
                 };
                 break;
             case DAMAGE:
-                final int extraDamage = 20;
+                final int extraDamage = 2;
                 accion = new Accion() {
                     @Override
                     public void doAction() {
@@ -311,31 +380,35 @@ public class GameState extends State {
         }
         if(waves == 2 && ufoCounter != maxUfo){
             if(!ufoSpawner.isRunning()){
-                ufoSpawner.run(Constantes.UFO_SPAWN_RATE);
+                ufoSpawner.run(UFO_SPAWN_RATE);
                 spawnUfo();
                 ufoCounter++;
             }
-        }else if(waves >= 3){
+        }else if(waves >= 3 && waves <11){
             if(!ufoSpawner.isRunning()){
-                ufoSpawner.run(Constantes.UFO_SPAWN_RATE);
+                ufoSpawner.run(UFO_SPAWN_RATE);
                 spawnUfo();
             }
         }
         if(waves == 2 && ufoBigCounter != maxUfoBig){
             if(!ufoBigSpawner.isRunning()){
-                ufoSpawner.run(Constantes.UFOBIG_SPAWN_RATE);
+                ufoSpawner.run(UFOBIG_SPAWN_RATE);
                 spawnUfoBig();
                 ufoBigCounter++;
             }
-        }else if(waves >= 3){
+        }else if(waves >= 3 && waves <11){
             if(!ufoBigSpawner.isRunning()){
-                ufoBigSpawner.run(Constantes.UFOBIG_SPAWN_RATE);
+                ufoBigSpawner.run(UFOBIG_SPAWN_RATE);
                 spawnUfoBig();
             }
         }
+        if(waves == 11 && !bossSpawned){
+            spawnBoss();
+            bossSpawned = true;
+        }
 
-        if(!limpiadorSpawner.isRunning()){
-            limpiadorSpawner.run(Constantes.LIMPIADOR_SPAWNRATE);
+        if(!limpiadorSpawner.isRunning() && waves <11){
+            limpiadorSpawner.run(LIMPIADOR_SPAWNRATE);
             spawnLimpiador();
         }
 
