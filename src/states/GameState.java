@@ -332,7 +332,7 @@ public class GameState extends State {
                     public void doAction() {
                         Laser.setDamageBonus(extraDamage);
                         mensajes.add(new Mensaje(
-                                posicion,false,"PUTENSIA!",Color.RED,false,Assets.fuentepeque
+                                posicion,false,"POWER X2",Color.RED,false,Assets.fuentepeque
                         ));
                     }
                 };
@@ -343,7 +343,7 @@ public class GameState extends State {
                     public void doAction() {
                         player.setEscudo();
                         mensajes.add(new Mensaje(
-                                posicion,false,"ESCUDO",Color.RED,false,Assets.fuentepeque));
+                                posicion,false,"SHIELD",Color.CYAN,false,Assets.fuentepeque));
                     }
                 };
                 break;

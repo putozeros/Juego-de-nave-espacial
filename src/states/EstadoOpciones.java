@@ -12,7 +12,6 @@ public class EstadoOpciones extends State{
     private ArrayList<Buttones> boton;
     private Buttones retornar;
 
-    private Buttones tripsModeBoton;
     public EstadoOpciones(){
         boton = new ArrayList<>();
 

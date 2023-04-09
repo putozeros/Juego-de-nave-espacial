@@ -27,6 +27,10 @@ public class Assets {
     public static BufferedImage ufoBig;
     public static BufferedImage ufoBoss;
     public static BufferedImage limpiador;
+    public static BufferedImage ufoexample;
+    public static BufferedImage bigexample;
+    public static BufferedImage bossexample;
+    public static BufferedImage limpexample;
 
     // lasers
     public static BufferedImage lazul,lverde,lrojo,lpeque;
@@ -66,6 +70,12 @@ public class Assets {
     public static Font fuentetiny;
     public static Font fuenteTitulo;
     public static BufferedImage bocadillo;
+
+    //controles
+    public static BufferedImage teclaA;
+    public static BufferedImage teclaD;
+    public static BufferedImage teclaW;
+    public static BufferedImage space;
 
     //Sonido
     public static Clip musica,explosion,lose,disparoJugador,disparoAlien,overheat,powerUpSound,monetizacion,hit,playerHit,
@@ -115,6 +125,14 @@ public class Assets {
         limpiador = Loader.imageLoader("/res/ships/Limpiador.png");
         ufoBoss = Loader.imageLoader("/res/ships/ufoBoss.png");
         bocadillo = Loader.imageLoader("/res/Ending/bocadillo.png");
+        bigexample = Loader.imageLoader("/res/ships/bigexample.png");
+        ufoexample = Loader.imageLoader("/res/ships/ufoexample.png");
+        bossexample = Loader.imageLoader("/res/ships/Bossexample.png");
+        limpexample = Loader.imageLoader("/res/ships/Limpexample.png");
+        teclaA = Loader.imageLoader("/res/otros/A2.png");
+        teclaD = Loader.imageLoader("/res/otros/D2.png");
+        teclaW = Loader.imageLoader("/res/otros/W2.png");
+        space = Loader.imageLoader("/res/otros/Space.png");
 
         musica = Loader.loadSonido("/res/Sonidos/musica.wav");
         explosion = Loader.loadSonido("/res/Sonidos/explosion.wav");
@@ -128,6 +146,7 @@ public class Assets {
         playerHit = Loader.loadSonido("/res/Sonidos/PlayerHit.wav");
         musicaMenu = Loader.loadSonido("/res/Sonidos/Musicamenu.wav");
         musicaEnding = Loader.loadSonido("/res/Sonidos/endingmusic.wav");
+
 
         if(tripsMode){
             for(int i = 0;i<grandes.length;i++){

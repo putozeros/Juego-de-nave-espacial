@@ -1,6 +1,5 @@
 package states;
 
-import UI.Accion;
 import UI.Buttones;
 import gameObjects.Constantes;
 import graficos.Assets;
@@ -69,12 +68,20 @@ public class EstadoMenu extends State{
                     1
             ));
         }
+        boton.add(new Buttones(
+                botonGris,
+                botonRojo,
+                545,300,
+                "Como Jugar",
+                () -> State.cambiarEstado(new EstadoHowTo()),
+                82
+        ));
 
         boton.add(new Buttones(
                 Assets.botonGris,
                 Assets.botonRojo,
                 545,
-                540,
+                420,
                 "TIENDA",
                 () -> State.cambiarEstado(new EstadoTienda()),
                 2
@@ -85,26 +92,14 @@ public class EstadoMenu extends State{
                 Assets.botonRojo,
                 Constantes.WIDTH / 2 - Assets.botonGris.getWidth() / 2,
                 360,
-                "PUNTOS",
-                new Accion() {
-                    @Override
-                    public void doAction(){
-                        State.cambiarEstado(new Score());
-                    }
-                },
+                "PUNTOS",() -> State.cambiarEstado(new Score()),
                 3
         ));
         boton.add(new Buttones(
                 Assets.botonGris,
                 Assets.botonRojo,
                 745, 360,
-                "OPCIONES",
-                new Accion() {
-                    @Override
-                    public void doAction() {
-                        State.cambiarEstado(new EstadoOpciones());
-                    }
-                },
+                "OPCIONES",() -> State.cambiarEstado(new EstadoOpciones()),
                 4
         ));
         boton.add(new Buttones(
@@ -116,6 +111,7 @@ public class EstadoMenu extends State{
                 () -> System.exit(0),
                 9
         ));
+
     }
 
     @Override
